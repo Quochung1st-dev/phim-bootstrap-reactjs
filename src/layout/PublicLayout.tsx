@@ -1,6 +1,8 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
+import './PublicLayout.css';
 
 type PublicLayoutProps = {
   children?: React.ReactNode;
@@ -8,13 +10,13 @@ type PublicLayoutProps = {
 
 const PublicLayout: React.FC<PublicLayoutProps> = ({ children }) => {
   return (
-    <div className="public-layout">
-      {/* //   <Header /> */}
+    <>
+      <Header />
       <main>
         {children || <Outlet />}
       </main>
-      {/* //   <Footer /> */}
-    </div>
+      <Footer />
+    </>
   );
 };
 

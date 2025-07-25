@@ -10,6 +10,8 @@ const router = createBrowserRouter(routes)
 function App() {
   return (
     <>
+      
+      <RouterProvider router={router} />
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -21,7 +23,6 @@ function App() {
         draggable
         pauseOnHover
       />
-      <RouterProvider router={router} />
     </>
   )
 }
