@@ -1,55 +1,138 @@
-import React from "react";
-import { Container } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Pagination, Container } from 'react-bootstrap';
 import './TrangChu.css';
+import { phimService } from "../../services/api/phim.service";
+import type { Phim } from "../../types/phim.types";
+import MovieCard from "../../components/MovieCard/MovieCard";
+import { useNavigate } from "react-router-dom";
 
 export const TrangChu: React.FC = () => {
-    // Sample data - in a real app, this would come from an API
-    const featuredMovies = [
-        { id: 1, title: 'Phim Hành Động 1', image: 'https://via.placeholder.com/300x450?text=Phim+1', category: 'Hành Động' },
-        { id: 2, title: 'Phim Tình Cảm 1', image: 'https://via.placeholder.com/300x450?text=Phim+2', category: 'Tình Cảm' },
-        { id: 3, title: 'Phim Hài Hước 1', image: 'https://via.placeholder.com/300x450?text=Phim+3', category: 'Hài Hước' },
-        { id: 4, title: 'Phim Kinh Dị 1', image: 'https://via.placeholder.com/300x450?text=Phim+4', category: 'Kinh Dị' },
-        { id: 5, title: 'Phim Hành Động 2', image: 'https://via.placeholder.com/300x450?text=Phim+5', category: 'Hành Động' },
-        { id: 6, title: 'Phim Tình Cảm 2', image: 'https://via.placeholder.com/300x450?text=Phim+6', category: 'Tình Cảm' },
-        { id: 7, title: 'Phim Hài Hước 2', image: 'https://via.placeholder.com/300x450?text=Phim+7', category: 'Hài Hước' },
-        { id: 8, title: 'Phim Kinh Dị 2', image: 'https://via.placeholder.com/300x450?text=Phim+8', category: 'Kinh Dị' },
-        { id: 9, title: 'Phim Hành Động 3', image: 'https://via.placeholder.com/300x450?text=Phim+9', category: 'Hành Động' },
-        { id: 10, title: 'Phim Tình Cảm 3', image: 'https://via.placeholder.com/300x450?text=Phim+10', category: 'Tình Cảm' },
-        { id: 11, title: 'Phim Hài Hước 3', image: 'https://via.placeholder.com/300x450?text=Phim+11', category: 'Hài Hước' },
-        { id: 12, title: 'Phim Kinh Dị 3', image: 'https://via.placeholder.com/300x450?text=Phim+12', category: 'Kinh Dị' },
-        { id: 13, title: 'Phim Hành Động 4', image: 'https://via.placeholder.com/300x450?text=Phim+13', category: 'Hành Động' },
-        { id: 14, title: 'Phim Tình Cảm 4', image: 'https://via.placeholder.com/300x450?text=Phim+14', category: 'Tình Cảm' },
-        { id: 15, title: 'Phim Hài Hước 4', image: 'https://via.placeholder.com/300x450?text=Phim+15', category: 'Hài Hước' },
-        { id: 16, title: 'Phim Kinh Dị 4', image: 'https://via.placeholder.com/300x450?text=Phim+16', category: 'Kinh Dị' },
-        { id: 17, title: 'Phim Hành Động 5', image: 'https://via.placeholder.com/300x450?text=Phim+17', category: 'Hành Động' },
-        { id: 18, title: 'Phim Tình Cảm 5', image: 'https://via.placeholder.com/300x450?text=Phim+18', category: 'Tình Cảm' },
-        { id: 19, title: 'Phim Hài Hước 5', image: 'https://via.placeholder.com/300x450?text=Phim+19', category: 'Hài Hước' },
-        { id: 20, title: 'Phim Kinh Dị 5', image: 'https://via.placeholder.com/300x450?text=Phim+20', category: 'Kinh Dị' },
-    ];
+    const navigate = useNavigate();
+    const [movies, setMovies] = useState<Phim[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [totalPages, setTotalPages] = useState<number>(1);
+    const [perPage, setPerPage] = useState<number>(20);
+    
+    const handleMovieClick = (movie: Phim) => {
+        navigate(`/${movie.slug}`);
+    };
+    
+    // Fetch movies with pagination
+    useEffect(() => {
+        const fetchMovies = async () => {
+            setLoading(true);
+            try {
+                const response = await phimService.getPhimMoiCapNhat({
+                    page: currentPage,
+                    per_page: perPage
+                });
+                
+                if (response.data) {
+                    setMovies(response.data.items);
+                    setTotalPages(response.data.pagination.last_page);
+                }
+            } catch (error) {
+                console.error("Error fetching movies:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchMovies();
+    }, [currentPage, perPage]);
+    
+    // Handle page change
+    const handlePageChange = (pageNumber: number) => {
+        setCurrentPage(pageNumber);
+        // Scroll to top when changing page
+        window.scrollTo(0, 0);
+    };
 
     return (
         <>
-            <div className="trang-chu-section-1">
+            <Container className="px-3">
+                <div className="trang-chu-section-1">
                 <div className="mt-4 mb-5">
-                    <h2 className="section-title mb-4">Phim Đề Xuất</h2>
-                    <div className="movie-grid">
-                        {featuredMovies.map((movie) => (
-                            <div key={movie.id} className="movie-item">
-                                <div className="movie-card">
-                                    <img src={movie.image} alt={movie.title} className="movie-poster" />
-                                    <div className="movie-info">
-                                        <h5 className="movie-title">{movie.title}</h5>
-                                        <span className="movie-category">{movie.category}</span>
-                                        <div className="movie-actions">
-                                            <button className="btn btn-sm btn-danger">Xem ngay</button>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div className="section-header">
+                        <h2 className="section-title mb-4">Phim Mới Cập Nhật</h2>
+                    </div>
+                    
+                    {loading ? (
+                        <div className="text-center py-5">
+                            <div className="spinner-border text-danger" role="status">
+                                <span className="visually-hidden">Loading...</span>
                             </div>
+                            <p className="mt-2 text-light">Đang tải phim...</p>
+                        </div>
+                    ) : (
+                    // chia lưới 4 cột 
+                    <div className="movie-grid">
+                        {movies.map((movie) => (
+                            <MovieCard 
+                                key={movie.id} 
+                                movie={movie} 
+                                onClick={handleMovieClick}
+                            />
                         ))}
                     </div>
+                    )}
+                    
+                    {/* Pagination controls */}
+                    {!loading && totalPages > 1 && (
+                        <div className="d-flex justify-content-center mt-4">
+                            <Pagination size="lg" className="custom-pagination">
+                                <Pagination.First 
+                                    disabled={currentPage === 1}
+                                    onClick={() => handlePageChange(1)} 
+                                />
+                                <Pagination.Prev 
+                                    disabled={currentPage === 1}
+                                    onClick={() => handlePageChange(currentPage - 1)} 
+                                />
+                                
+                                {/* Show max 5 page numbers */}
+                                {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                                    let pageNum;
+                                    if (totalPages <= 5) {
+                                        // If 5 or fewer pages, show all pages
+                                        pageNum = i + 1;
+                                    } else if (currentPage <= 3) {
+                                        // If current page is near the beginning
+                                        pageNum = i + 1;
+                                    } else if (currentPage >= totalPages - 2) {
+                                        // If current page is near the end
+                                        pageNum = totalPages - 4 + i;
+                                    } else {
+                                        // If current page is in the middle
+                                        pageNum = currentPage - 2 + i;
+                                    }
+                                    
+                                    return (
+                                        <Pagination.Item 
+                                            key={pageNum} 
+                                            active={pageNum === currentPage}
+                                            onClick={() => handlePageChange(pageNum)}
+                                        >
+                                            {pageNum}
+                                        </Pagination.Item>
+                                    );
+                                })}
+                                
+                                <Pagination.Next 
+                                    disabled={currentPage === totalPages}
+                                    onClick={() => handlePageChange(currentPage + 1)} 
+                                />
+                                <Pagination.Last 
+                                    disabled={currentPage === totalPages}
+                                    onClick={() => handlePageChange(totalPages)} 
+                                />
+                            </Pagination>
+                        </div>
+                    )}
                 </div>
             </div>
+            </Container>
         </>
     );
 }

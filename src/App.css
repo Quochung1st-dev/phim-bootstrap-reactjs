@@ -1,0 +1,68 @@
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #121212;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px 0;
+}
+
+/* Add some global style for bootstrap components */
+.btn-primary {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+/* Custom styles for the spinner */
+.spinner-border.text-danger {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Fade-in animation for movie grid */
+.movie-grid {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom pagination styling */
+.custom-pagination .page-link {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #343a40;
+  border: 1px solid #495057;
+}
+
+.custom-pagination .page-item.active .page-link {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.custom-pagination .page-link:hover {
+  background-color: #dc3545;
+  color: #fff;
+}

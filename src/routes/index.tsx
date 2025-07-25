@@ -1,6 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
 import PublicLayout from '../layout/PublicLayout';
 import TrangChu from '../pages/TrangChu/TrangChu';
+import PhimChiTiet from '../pages/PhimChiTiet/PhimChiTiet';
+import TimKiem from '../pages/TimKiem/TimKiem';
 
 
 const routes: RouteObject[] = [
@@ -11,6 +13,14 @@ const routes: RouteObject[] = [
       {
         index: true,
         element: <TrangChu />
+      },
+      {
+        path: "/tim-kiem",
+        element: <TimKiem />
+      },
+      {
+        path: "/:slug",
+        element: <PhimChiTiet />
       },
     //   {
     //     path: "dich-vu",

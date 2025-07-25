@@ -1,27 +1,54 @@
-# API Services
+# Services
 
-This directory contains all API-related services for the application.
+Thư mục này chứa các service functions để tương tác với APIs và external services.
 
-## Structure
+## Mục đích:
+- API calls và HTTP requests
+- External service integrations
+- Data fetching logic
+- Business logic liên quan đến backend
 
-- `httpClient.ts`: Main axios instance with interceptors
-- `/api`: Contains all endpoint-specific API services
-  - `httpEndpoint.ts`: Example API service for endpoints
+## Ví dụ cấu trúc:
+```
+services/
+├── api/
+│   ├── auth.ts
+│   ├── users.ts
+│   ├── products.ts
+│   └── index.ts
+├── http.ts (axios instance)
+└── storage.ts
+```
 
-## Usage
-
-Import the required API service and use it in your components or hooks:
-
+## Ví dụ service:
 ```typescript
-import { getEndpoints } from '../services/api/httpEndpoint';
+// services/api/auth.ts
+import { http } from '../http';
 
-// In an async function or useEffect
-const fetchData = async () => {
-  try {
-    const endpoints = await getEndpoints();
-    // Process data
-  } catch (error) {
-    // Handle error
-  }
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+}
+
+export const authService = {
+  login: async (credentials: LoginCredentials): Promise<User> => {
+    const response = await http.post('/auth/login', credentials);
+    return response.data;
+  },
+  
+  logout: async (): Promise<void> => {
+    await http.post('/auth/logout');
+  },
+  
+  getCurrentUser: async (): Promise<User> => {
+    const response = await http.get('/auth/me');
+    return response.data;
+  },
 };
 ```

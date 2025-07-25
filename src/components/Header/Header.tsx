@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Navbar, Nav, NavDropdown, Form, Button } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './Header.css';
 
@@ -37,15 +37,12 @@ const Header: React.FC = () => {
               </NavDropdown>
             </Nav>
             
-            <Form className="d-flex">
-              <Form.Control
-                type="search"
-                placeholder="Tìm kiếm phim..."
-                className="me-2"
-                aria-label="Search"
-              />
-              <Button variant="outline-danger">Tìm</Button>
-            </Form>
+            <Nav className="ms-auto d-flex align-items-center">
+              <Nav.Link as={Link} to="/tim-kiem" className="search-nav-link">
+                <i className="bi bi-search me-2"></i>
+                Tìm Kiếm
+              </Nav.Link>
+            </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
