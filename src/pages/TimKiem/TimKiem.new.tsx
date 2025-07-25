@@ -309,7 +309,7 @@ const TimKiem: React.FC = () => {
               <Button 
                 variant="danger"
                 className="search-state-button"
-                onClick={() => (document.querySelector('.search-input') as HTMLInputElement)?.focus()}
+                onClick={() => document.querySelector('.search-input')?.focus()}
               >
                 <i className="bi bi-search me-1"></i>
                 Bắt đầu tìm kiếm
