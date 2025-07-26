@@ -47,8 +47,17 @@ const PhimChiTiet: React.FC = () => {
     if (video) {
       // Pause current video
       video.pause();
-      // Update source will trigger reload
-      video.load();
+      // Get new source based on selected server
+      const newSource = serverNumber === 1 ? movie?.link_online : movie?.link_phim_local;
+      if (newSource) {
+        console.log('Setting video source:', newSource);
+        // Update source element
+        const sourceElement = video.querySelector('source');
+        if (sourceElement) {
+          sourceElement.src = newSource;
+          video.load(); // Reload video with new source
+        }
+      }
     }
   };
 
@@ -74,6 +83,23 @@ const PhimChiTiet: React.FC = () => {
       };
     }
   }, [movie]);
+
+  // Set video source when movie loads
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video && movie) {
+      const source = getVideoSource();
+      if (source) {
+        console.log('Setting initial video source:', source);
+        // Update source element
+        const sourceElement = video.querySelector('source');
+        if (sourceElement) {
+          sourceElement.src = source;
+          video.load();
+        }
+      }
+    }
+  }, [movie, selectedServer]);
 
   // Auto select available server when movie loads
   useEffect(() => {
@@ -224,27 +250,16 @@ const PhimChiTiet: React.FC = () => {
         <Row className="mb-4">
           <Col xs={12}>
             <div className="movie-player-container">
-              
               <div className="movie-player">
                 {(movie.link_online || movie.link_phim_local) ? (
                   <video 
-                    id="bannerVideo"
                     ref={videoRef}
+                    controls 
                     width="100%" 
-                    height="100%"
-                    controls
-                    preload="metadata"
-                    poster={movie.hinh_anh}
-                    controlsList="nodownload"
-                    disablePictureInPicture={false}
-                    crossOrigin="anonymous"
-                    key={selectedServer} // Force re-render when server changes
+                    height="auto"
                   >
                     <source src={getVideoSource()} type="video/mp4" />
-                    <source src={getVideoSource()} type="video/webm" />
-                    <source src={getVideoSource()} type="video/ogg" />
-                    <track kind="captions" srcLang="vi" label="Vietnamese" />
-                    Trình duyệt của bạn không hỗ trợ thẻ video HTML5.
+                    Trình duyệt không hỗ trợ HTML5 video.
                   </video>
                 ) : (
                   <div className="no-video-placeholder">
