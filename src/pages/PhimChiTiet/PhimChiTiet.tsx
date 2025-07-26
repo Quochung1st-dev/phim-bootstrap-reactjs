@@ -31,19 +31,12 @@ const PhimChiTiet: React.FC = () => {
   
   // Function to get video source based on selected server
   const getVideoSource = () => {
-    if (!movie?.link_online) return '';
-    
-    // Giả sử có 2 server khác nhau
-    // Server 1: link_online gốc
-    // Server 2: link_online với parameter hoặc URL khác (có thể từ API)
     if (selectedServer === 1) {
-      return movie.link_online;
+      // Server 1: Use online link
+      return movie?.link_online || '';
     } else {
-      // Server 2 - có thể là link khác hoặc link với parameter
-      // Ví dụ: thêm parameter để chuyển server
-      return movie.link_online.includes('?') 
-        ? `${movie.link_online}&server=2`
-        : `${movie.link_online}?server=2`;
+      // Server 2: Use local link
+      return movie?.link_phim_local || '';
     }
   };
 
@@ -81,6 +74,18 @@ const PhimChiTiet: React.FC = () => {
       };
     }
   }, [movie]);
+
+  // Auto select available server when movie loads
+  useEffect(() => {
+    if (movie) {
+      // If current server doesn't have video, switch to available server
+      if (selectedServer === 1 && !movie.link_online && movie.link_phim_local) {
+        setSelectedServer(2);
+      } else if (selectedServer === 2 && !movie.link_phim_local && movie.link_online) {
+        setSelectedServer(1);
+      }
+    }
+  }, [movie, selectedServer]);
     const params = useParams();
     const slug = params.slug;
 
@@ -221,7 +226,7 @@ const PhimChiTiet: React.FC = () => {
             <div className="movie-player-container">
               
               <div className="movie-player">
-                {movie.link_online ? (
+                {(movie.link_online || movie.link_phim_local) ? (
                   <video 
                     id="bannerVideo"
                     ref={videoRef}
@@ -350,9 +355,11 @@ const PhimChiTiet: React.FC = () => {
                         onClick={() => handleServerChange(1)}
                         className="w-100 server-btn"
                         size="sm"
+                        disabled={!movie.link_online}
                       >
                         <i className="bi bi-play-circle me-1"></i>
                         Server 1
+                        {!movie.link_online && <small className="d-block">Không có</small>}
                       </Button>
                     </Col>
                     <Col xs={6}>
@@ -361,9 +368,11 @@ const PhimChiTiet: React.FC = () => {
                         onClick={() => handleServerChange(2)}
                         className="w-100 server-btn"
                         size="sm"
+                        disabled={!movie.link_phim_local}
                       >
                         <i className="bi bi-play-circle me-1"></i>
                         Server 2
+                        {!movie.link_phim_local && <small className="d-block">Không có</small>}
                       </Button>
                     </Col>
                   </Row>
