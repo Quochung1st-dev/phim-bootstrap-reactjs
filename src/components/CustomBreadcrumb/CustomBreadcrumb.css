@@ -1,0 +1,27 @@
+.custom-breadcrumb {
+  background-color: transparent;
+  padding: 8px 0;
+  margin: 0;
+  border-radius: 0;
+}
+
+.custom-breadcrumb .breadcrumb-item {
+  font-size: 0.95rem;
+}
+
+.custom-breadcrumb .breadcrumb-item.active {
+  color: #e50914; /* Màu đỏ Netflix */
+  font-weight: 600;
+}
+
+.custom-breadcrumb .breadcrumb-item+.breadcrumb-item::before {
+  content: "/";
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .custom-breadcrumb .breadcrumb-item {
+    font-size: 0.85rem;
+  }
+}

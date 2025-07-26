@@ -6,6 +6,8 @@ import type { Phim } from '../../types/phim.types';
 import type { TheLoai as TheLoaiType } from '../../types/the_loai.types';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import './TheLoaiDetail.css';
+import CustomBreadcrumb from '../../components/CustomBreadcrumb';
+import routePath from '../../routes/routePath';
 
 const TheLoaiDetail: React.FC = () => {
   // States
@@ -19,6 +21,7 @@ const TheLoaiDetail: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalResults, setTotalResults] = useState<number>(0);
   const [theLoaiInfo, setTheLoaiInfo] = useState<TheLoaiType | null>(null);
+  const [tenTheLoai, setTenTheLoai] = useState<string>('');
 
   // Fetch phim theo thể loại
   const fetchMoviesByGenre = async (page: number = 1) => {
@@ -34,6 +37,7 @@ const TheLoaiDetail: React.FC = () => {
       if (response.data) {
         // Lấy danh sách phim từ API
         setMovies(response.data.items);
+        setTenTheLoai(response.message || '');
         
         // Lấy thông tin phân trang từ API
         setTotalPages(response.data.pagination.last_page);
@@ -148,14 +152,19 @@ const TheLoaiDetail: React.FC = () => {
   };
 
   return (
+    <>
+    <Container>
+        <CustomBreadcrumb
+        items={[
+          { label: 'Trang chủ', path: '/', icon: 'bi-house-door' },
+          { label: 'Thể loại', path: routePath.THE_LOAI.LIST },
+          { label: tenTheLoai || 'Đang tải...' }
+        ]}
+      />
+    </Container>
     <div className="the-loai-detail-page">
       <Container>
-        {/* Breadcrumb */}
-        <Breadcrumb className="my-3">
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>Trang chủ</Breadcrumb.Item>
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/the-loai' }}>Thể loại</Breadcrumb.Item>
-          <Breadcrumb.Item active>{theLoaiInfo?.ten || 'Đang tải...'}</Breadcrumb.Item>
-        </Breadcrumb>
+
 
         {/* Khu vực hiển thị danh sách phim theo thể loại */}
         <div>
@@ -181,13 +190,6 @@ const TheLoaiDetail: React.FC = () => {
             </div>
           ) : movies.length > 0 ? (
             <>
-              <h1 className="text-center mb-4">
-                Phim thể loại <span className="text-danger">{theLoaiInfo?.ten}</span>
-              </h1>
-              
-              {theLoaiInfo?.mo_ta && (
-                <p className="text-center mb-4">{theLoaiInfo.mo_ta}</p>
-              )}
               
               <p className="text-center mb-4">
                 Tìm thấy <strong>{totalResults}</strong> phim thuộc thể loại này
@@ -251,6 +253,7 @@ const TheLoaiDetail: React.FC = () => {
         </div>
       </Container>
     </div>
+    </>
   );
 };
 

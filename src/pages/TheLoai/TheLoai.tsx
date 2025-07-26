@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { theLoaiService } from '../../services/api/the_loai.service';
 import type { TheLoai as TheLoaiType } from '../../types/the_loai.types';
 import './TheLoai.css';
+import CustomBreadcrumb from '../../components/CustomBreadcrumb';
+import { routePath } from '../../routes/routePath';
 
 const TheLoai: React.FC = () => {
   // States
@@ -104,18 +106,21 @@ const TheLoai: React.FC = () => {
   };
   
   return (
+    <>
+    <Container>
+    <CustomBreadcrumb
+        items={[
+          { label: 'Trang chủ', path: '/', icon: 'bi-house-door' },
+          { label: 'Thể loại', path: routePath.THE_LOAI.LIST }
+        ]}
+      />
+    </Container>
     <div className="the-loai-page">
       <Container>
-        {/* Breadcrumb */}
-        <Breadcrumb className="my-3">
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>Trang chủ</Breadcrumb.Item>
-          <Breadcrumb.Item active>Thể loại</Breadcrumb.Item>
-        </Breadcrumb>
+        
 
         {/* Tiêu đề và danh sách các thể loại */}
         <div className="genre-header mb-4">
-          <h1 className="genre-title">Danh sách thể loại phim</h1>
-          
           {loading ? (
             <div className="text-center my-5">
               <div className="spinner-border text-danger" role="status">
@@ -179,6 +184,7 @@ const TheLoai: React.FC = () => {
         </div>
       </Container>
     </div>
+    </>
   );
 };
 

@@ -1,0 +1,36 @@
+.custom-pagination .page-item .page-link {
+  background-color: #212529;
+  border-color: #373b3e;
+  color: #f8f9fa;
+  min-width: 40px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.custom-pagination .page-item.active .page-link {
+  background-color: #e50914; /* Màu đỏ Netflix */
+  border-color: #e50914;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.custom-pagination .page-item .page-link:hover:not(.disabled) {
+  background-color: #343a40;
+  border-color: #e50914;
+  color: #e50914;
+}
+
+.custom-pagination .page-item.disabled .page-link {
+  background-color: #343a40;
+  border-color: #373b3e;
+  color: #6c757d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .custom-pagination .page-link {
+    font-size: 0.875rem;
+    min-width: 32px;
+    padding: 0.25rem 0.5rem;
+  }
+}

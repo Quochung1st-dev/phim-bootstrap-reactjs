@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Breadcrumb, Pagination, Button, Row } from 'react-bootstrap';
-import { Link, useSearchParams, useNavigate } from 'react-router-dom';
-import { createPhimMoiUrl } from '../../routes/routePath';
+import { Container, Button, Row } from 'react-bootstrap';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import routePath, { createPhimMoiUrl } from '../../routes/routePath';
+import CustomBreadcrumb from '../../components/CustomBreadcrumb';
+import type { BreadcrumbItem } from '../../components/CustomBreadcrumb';
+import CustomPagination from '../../components/CustomPagination';
 import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
 import MovieCard from '../../components/MovieCard/MovieCard';
@@ -75,70 +78,21 @@ const PhimMoi: React.FC = () => {
     });
   };
   
-  // Generate pagination items
-  const getPaginationItems = () => {
-    const items = [];
-    
-    // Show first page
-    items.push(
-      <Pagination.Item
-        key={1}
-        active={currentPage === 1}
-        onClick={() => handlePageChange(1)}
-      >
-        1
-      </Pagination.Item>
-    );
-
-    // Show dots if there are many pages and we're not at the beginning
-    if (currentPage > 3) {
-      items.push(<Pagination.Ellipsis key="ellipsis-start" />);
-    }
-
-    // Show pages around current page
-    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
-      if (i > 1 && i < totalPages) {
-        items.push(
-          <Pagination.Item
-            key={i}
-            active={currentPage === i}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </Pagination.Item>
-        );
-      }
-    }
-
-    // Show dots if there are many pages and we're not at the end
-    if (currentPage < totalPages - 2) {
-      items.push(<Pagination.Ellipsis key="ellipsis-end" />);
-    }
-
-    // Show last page if we have more than 1 page
-    if (totalPages > 1) {
-      items.push(
-        <Pagination.Item
-          key={totalPages}
-          active={currentPage === totalPages}
-          onClick={() => handlePageChange(totalPages)}
-        >
-          {totalPages}
-        </Pagination.Item>
-      );
-    }
-
-    return items;
-  };
+  // Không cần hàm getPaginationItems nữa vì đã dùng CustomPagination
   
   return (
+    <>
+      <Container>
+        <CustomBreadcrumb
+        items={[
+          { label: 'Trang chủ', path: '/', icon: 'bi-house-door' },
+          { label: 'Phim mới', path: routePath.PHIM_MOI }
+        ]}
+      />
+      </Container>
+    
     <div className="phim-moi-page">
       <Container>
-        {/* Breadcrumb */}
-        <Breadcrumb className="my-3">
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>Trang chủ</Breadcrumb.Item>
-          <Breadcrumb.Item active>Phim mới</Breadcrumb.Item>
-        </Breadcrumb>
         {/* Khu vực hiển thị danh sách phim mới */}
         <div>
           {loading ? (
@@ -177,29 +131,11 @@ const PhimMoi: React.FC = () => {
               
               {/* Phân trang */}
               {totalPages > 1 && (
-                <div className="d-flex justify-content-center mt-4">
-                  <Pagination>
-                    <Pagination.First 
-                      onClick={() => handlePageChange(1)} 
-                      disabled={currentPage === 1}
-                    />
-                    <Pagination.Prev
-                      disabled={currentPage === 1}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    />
-                    
-                    {getPaginationItems()}
-                    
-                    <Pagination.Next
-                      disabled={currentPage === totalPages}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    />
-                    <Pagination.Last 
-                      onClick={() => handlePageChange(totalPages)} 
-                      disabled={currentPage === totalPages}
-                    />
-                  </Pagination>
-                </div>
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               )}
             </>
           ) : (
@@ -218,6 +154,7 @@ const PhimMoi: React.FC = () => {
         </div>
       </Container>
     </div>
+    </>
   );
 };
 

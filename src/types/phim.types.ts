@@ -19,6 +19,8 @@ export interface Phim {
     the_loai: TheLoai[];
     link_online: string;
     link_phim_local: string | null;
+    view: number;
+    likes: number;
     created_at: Date;
 }
 

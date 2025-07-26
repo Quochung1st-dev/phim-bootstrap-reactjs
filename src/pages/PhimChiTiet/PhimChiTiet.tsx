@@ -5,6 +5,7 @@ import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
 import './PhimChiTiet.css';
 import MovieCard from '../../components/MovieCard/MovieCard';
+import CustomBreadcrumb from '../../components/CustomBreadcrumb';
 
 const PhimChiTiet: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -136,15 +137,17 @@ const PhimChiTiet: React.FC = () => {
   }
 
   return (
+    <>
+    <Container>
+      <CustomBreadcrumb
+        items={[
+          { label: 'Trang chủ', path: '/', icon: 'bi-house-door' },
+          { label: 'Phim' },
+          { label: movie.ten, path: `/${movie.slug}` }
+        ]}
+      />
+    </Container>
     <div className="phim-chi-tiet-page">
-      {/* Hero background image */}
-      <div 
-        className="hero-background" 
-        style={{ backgroundImage: `url(${movie.hinh_anh})` }}
-      >
-        <div className="overlay"></div>
-      </div>
-
       <Container className="movie-detail-container py-5">
         <Row>
           {/* Left column - Movie content (8 units) */}
@@ -332,6 +335,7 @@ const PhimChiTiet: React.FC = () => {
         </div>
       </Container>
     </div>
+    </>
   );
 };
 
