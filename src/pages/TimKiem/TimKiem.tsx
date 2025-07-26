@@ -164,59 +164,9 @@ const TimKiem: React.FC = () => {
     return items;
   };
 
-  // Xử lý sự kiện nhấn phím Enter trong ô tìm kiếm
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && searchQuery.trim()) {
-      e.preventDefault();
-      setCurrentPage(1);
-      handleSearch(1);
-      navigate(`/tim-kiem?query=${encodeURIComponent(searchQuery.trim())}&page=1`);
-    }
-  };
-
   return (
     <div className="tim-kiem-page">
       <Container>
-        {/* Header với ô tìm kiếm */}
-        <div className="search-header text-center mb-5">
-          <h1 className="mb-4">Tìm kiếm: {searchQuery ? `"${searchQuery}"` : ""}</h1>
-          
-          <div className="d-flex justify-content-center">
-            <div className="search-input-container" style={{ maxWidth: '600px', width: '100%' }}>
-              <div className="input-group">
-                <span className="input-group-text bg-dark border-secondary">
-                  <i className="bi bi-search text-light"></i>
-                </span>
-                <Form.Control
-                  type="text"
-                  placeholder="Nhập tên phim, diễn viên..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  className="border-secondary bg-dark text-light"
-                  autoFocus
-                />
-                <Button 
-                  variant="danger" 
-                  onClick={() => {
-                    if (searchQuery.trim()) {
-                      setCurrentPage(1);
-                      handleSearch(1);
-                      navigate(`/tim-kiem?query=${encodeURIComponent(searchQuery.trim())}&page=1`);
-                    }
-                  }}
-                  disabled={loading || !searchQuery.trim()}
-                >
-                  {loading ? (
-                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  ) : (
-                    "Tìm kiếm"
-                  )}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Khu vực hiển thị kết quả tìm kiếm */}
         <div>

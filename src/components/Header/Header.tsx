@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Navbar, Nav, NavDropdown, Form, Button, Spinner, InputGroup } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import './Header.css';
 import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
@@ -11,6 +11,8 @@ const Header: React.FC = () => {
   const [showResults, setShowResults] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const searchContainerRef = useRef<HTMLDivElement>(null);
   
   // Handle click outside to close search results
@@ -26,6 +28,17 @@ const Header: React.FC = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  
+  // Cập nhật từ khóa tìm kiếm từ URL vào ô tìm kiếm khi ở trang tìm kiếm
+  useEffect(() => {
+    // Chỉ kiểm tra khi đường dẫn là trang tìm kiếm
+    if (location.pathname === '/tim-kiem') {
+      const queryParam = searchParams.get('query');
+      if (queryParam) {
+        setSearchQuery(queryParam);
+      }
+    }
+  }, [location.pathname, searchParams]);
 
   // Debounce search
   useEffect(() => {
@@ -73,6 +86,7 @@ const Header: React.FC = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       setShowResults(false);
+      // Điều hướng đến trang tìm kiếm với query parameter
       navigate(`/tim-kiem?query=${encodeURIComponent(searchQuery.trim())}`);
       // Close mobile menu if open
       const navbarToggler = document.querySelector('.navbar-toggler') as HTMLElement;
