@@ -1,0 +1,182 @@
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Breadcrumb, Badge, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { theLoaiService } from '../../services/api/the_loai.service';
+import type { TheLoai as TheLoaiType } from '../../types/the_loai.types';
+import './TheLoai.css';
+
+const TheLoai: React.FC = () => {
+  // States
+  const [allTheLoai, setAllTheLoai] = useState<TheLoaiType[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [loadingMore, setLoadingMore] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const initialItemsPerPage = 84; // Ban đầu hiện 84 thể loại
+  const loadMoreCount = 42; // Mỗi lần load thêm 42 thể loại
+  
+  // Fetch thể loại info
+  useEffect(() => {
+    const fetchTheLoai = async () => {
+      setLoading(true);
+      setError(null);
+      setAllTheLoai([]);
+      
+      try {
+        // Lấy ban đầu 84 thể loại để hiển thị danh sách
+        const params = {
+          page: 1,
+          per_page: initialItemsPerPage // Ban đầu lấy 84 thể loại
+        };
+        
+        const allResponse = await theLoaiService.getDanhSachTheLoai(params);
+        
+        if (allResponse.data && Array.isArray(allResponse.data)) {
+          setAllTheLoai(allResponse.data);
+          
+          // Kiểm tra xem có thể loại để load thêm không
+          if (allResponse.data && allResponse.data.length >= initialItemsPerPage) {
+            // Nếu API không trả về thông tin phân trang, chúng ta có thể đoán dựa trên kích thước kết quả
+            setHasMore(true);
+          } else {
+            setHasMore(false);
+          }
+          
+          // Cập nhật tiêu đề trang
+          document.title = 'Thể Loại Phim | Phim Hay';
+        }
+      } catch (err) {
+        console.error('Failed to fetch genre list:', err);
+        setError('Đã có lỗi xảy ra khi tải danh sách thể loại');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchTheLoai();
+  }, [initialItemsPerPage]);
+  
+  // Hàm để load thêm thể loại
+  const loadMoreTheLoai = async () => {
+    if (loadingMore || !hasMore) return;
+    
+    setLoadingMore(true);
+    const nextPage = currentPage + 1;
+    
+    try {
+      const params = {
+        page: nextPage,
+        per_page: loadMoreCount
+      };
+      
+      const response = await theLoaiService.getDanhSachTheLoai(params);
+      
+      if (response && response.data && Array.isArray(response.data)) {
+        // Thêm vào danh sách thể loại hiện tại
+        const newTheLoai = response.data;
+        setAllTheLoai(prevTheLoai => [...prevTheLoai, ...newTheLoai]);
+        setCurrentPage(nextPage);
+        
+        // Kiểm tra xem còn thể loại để load thêm không
+        if (newTheLoai.length < loadMoreCount) {
+          setHasMore(false);
+        }
+        
+        // Scroll một chút xuống dưới
+        setTimeout(() => {
+          window.scrollBy({
+            top: 200,
+            behavior: 'smooth'
+          });
+        }, 100);
+      } else {
+        setHasMore(false);
+      }
+    } catch (err) {
+      console.error('Failed to load more genres:', err);
+      setHasMore(false);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+  
+  return (
+    <div className="the-loai-page">
+      <Container>
+        {/* Breadcrumb */}
+        <Breadcrumb className="my-3">
+          <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>Trang chủ</Breadcrumb.Item>
+          <Breadcrumb.Item active>Thể loại</Breadcrumb.Item>
+        </Breadcrumb>
+
+        {/* Tiêu đề và danh sách các thể loại */}
+        <div className="genre-header mb-4">
+          <h1 className="genre-title">Danh sách thể loại phim</h1>
+          
+          {loading ? (
+            <div className="text-center my-5">
+              <div className="spinner-border text-danger" role="status">
+                <span className="visually-hidden">Đang tải...</span>
+              </div>
+              <p className="mt-3">Đang tải danh sách thể loại...</p>
+            </div>
+          ) : error ? (
+            <div className="text-center my-5">
+              <i className="bi bi-exclamation-triangle fs-1 text-danger"></i>
+              <h2 className="mt-3">Đã xảy ra lỗi</h2>
+              <p>{error}</p>
+            </div>
+          ) : (
+            <div className="genre-list mt-4">
+              <Row xs={2} sm={3} md={4} lg={6} className="g-3">
+                {allTheLoai.map(theLoai => (
+                  <Col key={theLoai.id}>
+                    <Link 
+                      to={`/the-loai/${theLoai.slug}`} 
+                      className="genre-badge-link"
+                    >
+                      <Badge 
+                        className="genre-badge w-100 py-2" 
+                        bg="secondary"
+                      >
+                        {theLoai.ten}
+                      </Badge>
+                    </Link>
+                  </Col>
+                ))}
+              </Row>
+              
+              {/* Nút load thêm thể loại */}
+              {hasMore && (
+                <div className="text-center mt-4">
+                  <Button 
+                    variant="outline-primary" 
+                    size="lg"
+                    onClick={loadMoreTheLoai}
+                    disabled={loadingMore}
+                    className="load-more-btn"
+                  >
+                    {loadingMore ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Đang tải...
+                      </>
+                    ) : (
+                      <>
+                        <i className="bi bi-plus-circle me-2"></i>
+                        Xem Thêm Thể Loại
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </Container>
+    </div>
+  );
+};
+
+export default TheLoai;

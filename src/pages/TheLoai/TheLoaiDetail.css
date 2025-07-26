@@ -1,0 +1,38 @@
+/* TheLoaiDetail.css được kế thừa từ TheLoai.css */
+/* Các style đặc thù cho trang chi tiết thể loại */
+
+.the-loai-detail-page {
+  padding: 20px 0 50px;
+  color: white;
+}
+
+.genre-info {
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: rgba(30, 30, 30, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.genre-title-badge {
+  display: inline-block;
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.movies-count {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.movies-count strong {
+  color: #dc3545;
+  font-weight: 700;
+}

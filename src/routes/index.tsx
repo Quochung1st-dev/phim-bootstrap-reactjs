@@ -3,6 +3,8 @@ import PublicLayout from '../layout/PublicLayout';
 import TrangChu from '../pages/TrangChu/TrangChu';
 import PhimChiTiet from '../pages/PhimChiTiet/PhimChiTiet';
 import TimKiem from '../pages/TimKiem/TimKiem';
+import TheLoai from '../pages/TheLoai/TheLoai';
+import TheLoaiDetail from '../pages/TheLoai/TheLoaiDetail';
 
 
 const routes: RouteObject[] = [
@@ -17,6 +19,14 @@ const routes: RouteObject[] = [
       {
         path: "/tim-kiem",
         element: <TimKiem />
+      },
+      {
+        path: "/the-loai",
+        element: <TheLoai />
+      },
+      {
+        path: "/the-loai/:slug",
+        element: <TheLoaiDetail />
       },
       {
         path: "/:slug",

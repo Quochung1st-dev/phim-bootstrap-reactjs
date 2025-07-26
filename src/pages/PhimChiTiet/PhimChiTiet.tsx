@@ -154,9 +154,15 @@ const PhimChiTiet: React.FC = () => {
               
               <div className="movie-categories mb-4">
                 {movie.the_loai && movie.the_loai.map((category) => (
-                  <Badge key={category.id} bg="danger" className="me-2">
-                    {category.ten}
-                  </Badge>
+                  <Link 
+                    key={category.id} 
+                    to={`/the-loai/${category.slug}`} 
+                    className="text-decoration-none"
+                  >
+                    <Badge key={category.id} bg="danger" className="me-2">
+                      {category.ten}
+                    </Badge>
+                  </Link>
                 ))}
               </div>
 
@@ -229,7 +235,14 @@ const PhimChiTiet: React.FC = () => {
                 <div className="info-item">
                   <span className="info-label">Thể loại:</span>
                   <span className="info-value">
-                    {movie.the_loai?.map(c => c.ten).join(', ') || 'Không xác định'}
+                    {movie.the_loai?.map((c, index) => (
+                      <React.Fragment key={c.id}>
+                        <Link to={`/the-loai/${c.slug}`} className="genre-link">
+                          {c.ten}
+                        </Link>
+                        {index < movie.the_loai!.length - 1 ? ', ' : ''}
+                      </React.Fragment>
+                    )) || 'Không xác định'}
                   </span>
                 </div>
 

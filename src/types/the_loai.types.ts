@@ -1,5 +1,6 @@
 
 
+
 export interface TheLoai {
     id: number;
     ten: string;
