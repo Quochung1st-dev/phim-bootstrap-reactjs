@@ -46,9 +46,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
             </div>
           )}
         </div>
-        <div className="movie-play-icon">
-          <i className="bi bi-play-circle-fill"></i>
-        </div>
       </div>
     </Link>
   );

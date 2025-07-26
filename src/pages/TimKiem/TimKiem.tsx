@@ -168,12 +168,14 @@ const TimKiem: React.FC = () => {
 
   return (
     <>
-    <CustomBreadcrumb
+    <Container>
+      <CustomBreadcrumb
         items={[
           { label: 'Trang chủ', path: '/', icon: 'bi-house-door' },
           { label: `Tìm kiếm: ${searchQuery}`, path: routePath.TIM_KIEM }
         ]}
       />
+    </Container>
     <div className="tim-kiem-page">
       <Container>
 
