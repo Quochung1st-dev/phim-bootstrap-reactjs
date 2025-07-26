@@ -10,7 +10,7 @@ const TimKiem: React.FC = () => {
   // States
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('q') || '');
+  const [searchQuery, setSearchQuery] = useState<string>(searchParams.get('query') || '');
   const [movies, setMovies] = useState<Phim[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -32,6 +32,7 @@ const TimKiem: React.FC = () => {
     setError(null);
 
     try {
+      // Gọi API tìm kiếm phim với tham số query
       const response = await phimService.searchPhim({
         query: query,
         page: page,
@@ -45,7 +46,7 @@ const TimKiem: React.FC = () => {
         
         // Update URL params
         setSearchParams({ 
-          q: query,
+          query: query,
           page: page.toString() 
         });
         
@@ -67,6 +68,11 @@ const TimKiem: React.FC = () => {
     e.preventDefault();
     setCurrentPage(1); // Reset to first page
     handleSearch(1);
+    
+    // Điều hướng URL với tham số query thay vì thay đổi qua setSearchParams
+    if (searchQuery.trim()) {
+      navigate(`/tim-kiem?query=${encodeURIComponent(searchQuery.trim())}&page=1`);
+    }
   };
 
   // Page change handler
@@ -74,11 +80,14 @@ const TimKiem: React.FC = () => {
     setCurrentPage(page);
     handleSearch(page);
     
+    // Cập nhật URL với tham số query
+    if (searchQuery.trim()) {
+      navigate(`/tim-kiem?query=${encodeURIComponent(searchQuery.trim())}&page=${page}`);
+    }
+    
     // Scroll to top of results
     window.scrollTo({
-      top: document.querySelector('.search-results-container')?.getBoundingClientRect().top 
-        ? window.scrollY + (document.querySelector('.search-results-container')?.getBoundingClientRect().top || 0) - 100
-        : 0,
+      top: 0,
       behavior: 'smooth'
     });
   };
@@ -87,16 +96,17 @@ const TimKiem: React.FC = () => {
   // Không cần hàm sort trong thiết kế đơn giản mới
 
   // Initial search on mount or when URL params change
+  // Xử lý khi URL thay đổi hoặc khi component được tải lần đầu
   useEffect(() => {
-    const query = searchParams.get('query') || '';
+    const queryParam = searchParams.get('query') || '';
     const page = Number(searchParams.get('page')) || 1;
     
-    if (query) {
-      setSearchQuery(query);
+    if (queryParam) {
+      setSearchQuery(queryParam);
       setCurrentPage(page);
-      handleSearch(page, query);
+      handleSearch(page, queryParam);
     }
-  }, []);
+  }, [searchParams]);
 
   // Generate pagination items
   const getPaginationItems = () => {
@@ -154,9 +164,59 @@ const TimKiem: React.FC = () => {
     return items;
   };
 
+  // Xử lý sự kiện nhấn phím Enter trong ô tìm kiếm
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchQuery.trim()) {
+      e.preventDefault();
+      setCurrentPage(1);
+      handleSearch(1);
+      navigate(`/tim-kiem?query=${encodeURIComponent(searchQuery.trim())}&page=1`);
+    }
+  };
+
   return (
     <div className="tim-kiem-page">
       <Container>
+        {/* Header với ô tìm kiếm */}
+        <div className="search-header text-center mb-5">
+          <h1 className="mb-4">Tìm kiếm: {searchQuery ? `"${searchQuery}"` : ""}</h1>
+          
+          <div className="d-flex justify-content-center">
+            <div className="search-input-container" style={{ maxWidth: '600px', width: '100%' }}>
+              <div className="input-group">
+                <span className="input-group-text bg-dark border-secondary">
+                  <i className="bi bi-search text-light"></i>
+                </span>
+                <Form.Control
+                  type="text"
+                  placeholder="Nhập tên phim, diễn viên..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  className="border-secondary bg-dark text-light"
+                  autoFocus
+                />
+                <Button 
+                  variant="danger" 
+                  onClick={() => {
+                    if (searchQuery.trim()) {
+                      setCurrentPage(1);
+                      handleSearch(1);
+                      navigate(`/tim-kiem?query=${encodeURIComponent(searchQuery.trim())}&page=1`);
+                    }
+                  }}
+                  disabled={loading || !searchQuery.trim()}
+                >
+                  {loading ? (
+                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  ) : (
+                    "Tìm kiếm"
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Khu vực hiển thị kết quả tìm kiếm */}
         <div>
