@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Form, Button, Pagination } from 'react-bootstrap';
+import { Container, Form, Button, Pagination } from 'react-bootstrap';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
@@ -17,8 +17,7 @@ const TimKiem: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page')) || 1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalResults, setTotalResults] = useState<number>(0);
-  const [sortBy, setSortBy] = useState<string>('relevance');
-  const itemsPerPage = 20; // Fixed at 20 items per page
+  const itemsPerPage = 20; // Fixed at 20 items per page (4 columns x 5 rows)
 
   // Search handler
   const handleSearch = async (page: number = 1, query: string = searchQuery) => {
@@ -85,14 +84,11 @@ const TimKiem: React.FC = () => {
   };
 
   // Sort change handler
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortBy(e.target.value);
-    // In a real application, you would update the API call to include sort parameters
-  };
+  // Không cần hàm sort trong thiết kế đơn giản mới
 
   // Initial search on mount or when URL params change
   useEffect(() => {
-    const query = searchParams.get('q') || '';
+    const query = searchParams.get('query') || '';
     const page = Number(searchParams.get('page')) || 1;
     
     if (query) {
@@ -161,60 +157,24 @@ const TimKiem: React.FC = () => {
   return (
     <div className="tim-kiem-page">
       <Container>
-        <div className="search-header">
-          <div className="search-header-content">
-            <h1 className="search-title">Tìm Kiếm Phim</h1>
-            
-            <Form onSubmit={handleSubmit} className="search-form">
-              <div className="search-input-wrapper">
-                <i className="bi bi-search search-input-icon"></i>
-                <Form.Control
-                  type="text"
-                  placeholder="Nhập tên phim, diễn viên hoặc đạo diễn..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="search-input"
-                  autoFocus
-                />
-                <Button 
-                  variant="danger" 
-                  type="submit"
-                  className="search-button"
-                  disabled={loading || !searchQuery.trim()}
-                >
-                  {loading ? (
-                    <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                  ) : (
-                    <i className="bi bi-search"></i>
-                  )}
-                  <span>Tìm kiếm</span>
-                </Button>
-              </div>
-            </Form>
-            
-            <div className="search-tips">
-              Gợi ý: Nhập tên phim, diễn viên, thể loại hoặc đạo diễn để có kết quả tốt nhất
-            </div>
-          </div>
-        </div>
 
-        <div className="search-results-container">
+        {/* Khu vực hiển thị kết quả tìm kiếm */}
+        <div>
           {loading ? (
-            <div className="search-loading">
-              <div className="spinner-border text-danger search-loading-spinner" role="status">
+            <div className="text-center my-5">
+              <div className="spinner-border text-danger" role="status">
                 <span className="visually-hidden">Đang tải...</span>
               </div>
-              <p className="search-loading-text">Đang tìm kiếm phim phù hợp...</p>
+              <p className="mt-3">Đang tìm kiếm phim...</p>
             </div>
           ) : error ? (
-            <div className="search-state">
-              <i className="bi bi-exclamation-triangle search-state-icon error"></i>
-              <h2 className="search-state-title">Đã xảy ra lỗi</h2>
-              <p className="search-state-message">{error}</p>
+            <div className="text-center my-5">
+              <i className="bi bi-exclamation-triangle fs-1 text-danger"></i>
+              <h2 className="mt-3">Đã xảy ra lỗi</h2>
+              <p>{error}</p>
               <Button 
                 variant="danger" 
                 onClick={() => handleSearch()}
-                className="search-state-button"
               >
                 <i className="bi bi-arrow-clockwise me-2"></i>
                 Thử lại
@@ -222,98 +182,72 @@ const TimKiem: React.FC = () => {
             </div>
           ) : movies.length > 0 ? (
             <>
-              <div className="search-results-info">
-                <p className="search-results-count">
-                  Tìm thấy <strong>{totalResults}</strong> kết quả cho <span className="search-results-query">"{searchQuery}"</span>
-                </p>
-                <div className="search-results-sort">
-                  <label htmlFor="sort-select">Sắp xếp:</label>
-                  <Form.Select 
-                    id="sort-select" 
-                    size="sm" 
-                    value={sortBy}
-                    onChange={handleSortChange}
-                  >
-                    <option value="relevance">Liên quan nhất</option>
-                    <option value="newest">Mới nhất</option>
-                    <option value="popular">Phổ biến nhất</option>
-                    <option value="rating">Đánh giá cao nhất</option>
-                  </Form.Select>
-                </div>
+              <p className="text-center mb-4">
+                Tìm thấy <strong>{totalResults}</strong> kết quả cho <span className="text-danger">"{searchQuery}"</span>
+              </p>
+              
+              {/* Grid 4 cột 5 hàng đơn giản */}
+              <div className="movie-grid">
+                {movies.slice(0, 20).map((movie) => (
+                  <div key={movie.id} className="movie-grid-item">
+                    <MovieCard movie={movie} />
+                  </div>
+                ))}
               </div>
               
-              <Row className="movie-grid">
-                {movies.map((movie) => (
-                  <Col key={movie.id} lg={3} md={4} sm={6} xs={12} className="movie-grid-item">
-                    <MovieCard movie={movie} />
-                  </Col>
-                ))}
-              </Row>
-              
+              {/* Phân trang đơn giản */}
               {totalPages > 1 && (
-                <div className="pagination-container">
-                  <Pagination className="custom-pagination">
+                <div className="d-flex justify-content-center mt-4">
+                  <Pagination>
+                    <Pagination.First 
+                      onClick={() => handlePageChange(1)} 
+                      disabled={currentPage === 1}
+                    />
                     <Pagination.Prev
                       disabled={currentPage === 1}
                       onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                      <i className="bi bi-chevron-left"></i>
-                    </Pagination.Prev>
+                    />
                     
                     {getPaginationItems()}
                     
                     <Pagination.Next
                       disabled={currentPage === totalPages}
                       onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                      <i className="bi bi-chevron-right"></i>
-                    </Pagination.Next>
+                    />
+                    <Pagination.Last 
+                      onClick={() => handlePageChange(totalPages)} 
+                      disabled={currentPage === totalPages}
+                    />
                   </Pagination>
                 </div>
               )}
             </>
           ) : searchQuery ? (
-            <div className="search-state">
-              <i className="bi bi-search search-state-icon"></i>
-              <h2 className="search-state-title">Không tìm thấy kết quả</h2>
-              <p className="search-state-message">
+            <div className="text-center my-5">
+              <i className="bi bi-search fs-1"></i>
+              <h2 className="mt-3">Không tìm thấy kết quả</h2>
+              <p>
                 Không có phim nào phù hợp với từ khóa "{searchQuery}". 
-                Hãy thử tìm kiếm với từ khóa khác hoặc kiểm tra lại chính tả.
+                Hãy thử tìm kiếm với từ khóa khác.
               </p>
               <div className="d-flex justify-content-center gap-3">
-                <Button 
-                  variant="outline-light" 
-                  onClick={() => navigate('/')}
-                  className="search-state-button"
-                >
+                <Button variant="outline-light" onClick={() => navigate('/')}>
                   <i className="bi bi-house-door me-1"></i>
                   Về trang chủ
                 </Button>
-                <Button 
-                  variant="danger" 
-                  onClick={() => setSearchQuery('')}
-                  className="search-state-button"
-                >
+                <Button variant="danger" onClick={() => setSearchQuery('')}>
                   <i className="bi bi-x-circle me-1"></i>
                   Xóa tìm kiếm
                 </Button>
               </div>
             </div>
           ) : (
-            <div className="search-state">
-              <i className="bi bi-search search-state-icon"></i>
-              <h2 className="search-state-title">Bạn muốn tìm phim gì?</h2>
-              <p className="search-state-message">
-                Nhập từ khóa vào ô tìm kiếm để khám phá kho tàng phim hấp dẫn
+            <div className="text-center my-5">
+              <i className="bi bi-search fs-1"></i>
+              <h2 className="mt-3">Bạn muốn tìm phim gì?</h2>
+              <p>
+                Nhập từ khóa vào ô tìm kiếm để khám phá phim
               </p>
-              <Button 
-                variant="danger"
-                className="search-state-button"
-                onClick={() => (document.querySelector('.search-input') as HTMLInputElement)?.focus()}
-              >
-                <i className="bi bi-search me-1"></i>
-                Bắt đầu tìm kiếm
-              </Button>
             </div>
           )}
         </div>
