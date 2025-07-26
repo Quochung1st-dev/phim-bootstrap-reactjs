@@ -171,16 +171,6 @@ const Header: React.FC = () => {
                                 className="search-result-item"
                                 onClick={() => setShowResults(false)}
                               >
-                                {phim.hinh_anh_thumb && (
-                                  <img 
-                                    src={phim.hinh_anh_thumb}
-                                    alt={phim.ten}
-                                    className="search-result-thumb"
-                                    onError={(e) => {
-                                      (e.target as HTMLImageElement).style.display = 'none';
-                                    }}
-                                  />
-                                )}
                                 <div className="search-result-info">
                                   <h6>{phim.ten}</h6>
                                 </div>

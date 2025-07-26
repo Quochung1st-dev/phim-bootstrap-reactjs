@@ -15,7 +15,9 @@ export interface Phim {
     slug: string;
     mo_ta: string | null;
     hinh_anh: string;
-    hinh_anh_thumb: string;
+    hinh_anh_thumb: {
+        link: string;
+    }[];
     the_loai: TheLoai[];
     link_online: string;
     link_phim_local: string | null;
@@ -23,6 +25,7 @@ export interface Phim {
     likes: number;
     created_at: Date;
 }
+
 
 export interface hinh_anh_thumb {
     link: string;

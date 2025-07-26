@@ -16,7 +16,18 @@ const PhimChiTiet: React.FC = () => {
     const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
     const [hasMoreRelatedMovies, setHasMoreRelatedMovies] = useState<boolean>(true);
     const [selectedServer, setSelectedServer] = useState<number>(1); // 1 for server 1, 2 for server 2
+    const [zoomedImage, setZoomedImage] = useState<string | null>(null); // For image zoom
   const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Function to handle image zoom
+  const handleImageZoom = (imageUrl: string) => {
+    setZoomedImage(imageUrl);
+  };
+
+  // Function to close zoom
+  const closeZoom = () => {
+    setZoomedImage(null);
+  };
   
   // Function to get video source based on selected server
   const getVideoSource = () => {
@@ -246,8 +257,31 @@ const PhimChiTiet: React.FC = () => {
           {/* Left column - Movie Info (8 units) */}
           <Col lg={8} md={8} sm={12}>
             <div className="movie-info-content">
-              <h1 className="movie-title">{movie.ten}</h1>
               
+              <h1 className="movie-title">{movie.ten}</h1>
+              {/* 3 Info Items - Inline */}
+              <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+                <div className="d-flex align-items-center me-4 mb-2">
+                  <i className="bi bi-calendar-date me-2"></i>
+                  <span>
+                    <strong>Ngày đăng:</strong> {new Date(movie.created_at).toLocaleDateString('vi-VN')}
+                  </span>
+                </div>
+                
+                <div className="d-flex align-items-center me-4 mb-2">
+                  <i className="bi bi-eye me-2"></i>
+                  <span>
+                    <strong>Lượt xem:</strong> {movie.view.toLocaleString()}
+                  </span>
+                </div>
+                
+                <div className="d-flex align-items-center mb-2">
+                  <i className="bi bi-heart-fill me-2"></i>
+                  <span>
+                    <strong>Lượt thích:</strong> {movie.likes.toLocaleString()}
+                  </span>
+                </div>
+              </div>
               {/* Movie Categories - simple layout */}
               <div className="movie-categories-section">
                 <div className="movie-categories">
@@ -265,67 +299,31 @@ const PhimChiTiet: React.FC = () => {
                 </div>
               </div>
 
-              <div className="movie-meta-info mb-4">
-                <div className="info-row mb-2">
-                  <span className="info-label">Ngày đăng:</span>
-                  <span className="info-value ms-2">
-                    {new Date(movie.created_at).toLocaleDateString('vi-VN')}
-                  </span>
-                </div>
-                
-                <div className="info-row mb-2">
-                  <span className="info-label">Lượt xem:</span>
-                  <span className="info-value ms-2">
-                    {Math.floor(Math.random() * 10000) + 1000}
-                  </span>
-                </div>
-                
-                <div className="info-row mb-2">
-                  <span className="info-label">Chất lượng:</span>
-                  <span className="info-value ms-2">HD</span>
-                </div>
-              </div>
+              
 
               {/* Movie Description with thumbnails */}
               <div className="movie-description">
-                <h3 className="description-title mb-3">Nội Dung</h3>
-                
                 {movie.hinh_anh_thumb && (
                   <div className="description-thumbnails mb-3">
                     <Row className="g-2">
-                      <Col xs={6} sm={4} md={3}>
-                        <div className="thumbnail-container">
-                          <img 
-                            src={movie.hinh_anh_thumb} 
-                            alt={`${movie.ten} - Thumbnail`}
-                            className="description-thumb"
-                            loading="lazy"
-                          />
-                          <div className="thumbnail-overlay">
-                            <i className="bi bi-zoom-in"></i>
+                      {movie.hinh_anh_thumb.map((thumb, index) => (
+                        <Col key={index} xs={6} sm={4} md={3}>
+                          <div className="thumbnail-container" onClick={() => handleImageZoom(thumb.link)}>
+                            <img 
+                              src={thumb.link} 
+                              alt={`${movie.ten} - Thumbnail ${index + 1}`}
+                              className="description-thumb"
+                              loading="lazy"
+                            />
+                            <div className="thumbnail-overlay">
+                              <i className="bi bi-zoom-in"></i>
+                            </div>
                           </div>
-                        </div>
-                      </Col>
-                      <Col xs={6} sm={4} md={3}>
-                        <div className="thumbnail-container">
-                          <img 
-                            src={movie.hinh_anh} 
-                            alt={`${movie.ten} - Poster`}
-                            className="description-thumb"
-                            loading="lazy"
-                          />
-                          <div className="thumbnail-overlay">
-                            <i className="bi bi-zoom-in"></i>
-                          </div>
-                        </div>
-                      </Col>
+                        </Col>
+                      ))}
                     </Row>
                   </div>
                 )}
-                
-                <div className="description-text">
-                  <p>{movie.mo_ta || "Không có mô tả cho phim này."}</p>
-                </div>
               </div>
             </div>
           </Col>
@@ -340,10 +338,6 @@ const PhimChiTiet: React.FC = () => {
                   alt={movie.ten}
                   className="movie-poster-small"
                 />
-                <div className="movie-rating">
-                  <i className="bi bi-star-fill"></i>
-                  <span>8.5</span>
-                </div>
               </div>
 
               <div className="action-buttons">
@@ -466,6 +460,20 @@ const PhimChiTiet: React.FC = () => {
         </div>
       </Container>
     </div>
+    
+    {/* Image Zoom Modal */}
+    {zoomedImage && (
+      <div className="image-zoom-modal" onClick={closeZoom}>
+        <div className="zoom-overlay">
+          <img 
+            src={zoomedImage} 
+            alt="Zoomed image" 
+            className="zoomed-image"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      </div>
+    )}
     </>
   );
 };
