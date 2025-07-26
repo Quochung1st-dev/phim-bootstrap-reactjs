@@ -246,22 +246,26 @@ const PhimChiTiet: React.FC = () => {
           {/* Left column - Movie Info (8 units) */}
           <Col lg={8} md={8} sm={12}>
             <div className="movie-info-content">
-              <h1 className="movie-title mb-3">{movie.ten}</h1>
-              <div className="movie-categories mb-3">
-                {movie.the_loai && movie.the_loai.map((category) => (
-                  <Link 
-                    key={category.id} 
-                    to={`/the-loai/${category.slug}`} 
-                    className="text-decoration-none"
-                  >
-                    <Badge bg="danger" className="me-2">
-                      {category.ten}
-                    </Badge>
-                  </Link>
-                ))}
+              <h1 className="movie-title">{movie.ten}</h1>
+              
+              {/* Movie Categories - simple layout */}
+              <div className="movie-categories-section">
+                <div className="movie-categories">
+                  {movie.the_loai && movie.the_loai.map((category) => (
+                    <Link 
+                      key={category.id} 
+                      to={`/the-loai/${category.slug}`} 
+                      className="text-decoration-none"
+                    >
+                      <Badge bg="danger" className="me-2 mb-2">
+                        {category.ten}
+                      </Badge>
+                    </Link>
+                  ))}
+                </div>
               </div>
 
-              <div className="movie-meta-info">
+              <div className="movie-meta-info mb-4">
                 <div className="info-row mb-2">
                   <span className="info-label">Ngày đăng:</span>
                   <span className="info-value ms-2">
@@ -276,17 +280,52 @@ const PhimChiTiet: React.FC = () => {
                   </span>
                 </div>
                 
-                <div className="info-row mb-3">
+                <div className="info-row mb-2">
                   <span className="info-label">Chất lượng:</span>
-                  <span className="info-value ms-2">
-                    HD
-                  </span>
+                  <span className="info-value ms-2">HD</span>
                 </div>
               </div>
 
+              {/* Movie Description with thumbnails */}
               <div className="movie-description">
-                <h3>Nội Dung</h3>
-                <p>{movie.mo_ta || "Không có mô tả cho phim này."}</p>
+                <h3 className="description-title mb-3">Nội Dung</h3>
+                
+                {movie.hinh_anh_thumb && (
+                  <div className="description-thumbnails mb-3">
+                    <Row className="g-2">
+                      <Col xs={6} sm={4} md={3}>
+                        <div className="thumbnail-container">
+                          <img 
+                            src={movie.hinh_anh_thumb} 
+                            alt={`${movie.ten} - Thumbnail`}
+                            className="description-thumb"
+                            loading="lazy"
+                          />
+                          <div className="thumbnail-overlay">
+                            <i className="bi bi-zoom-in"></i>
+                          </div>
+                        </div>
+                      </Col>
+                      <Col xs={6} sm={4} md={3}>
+                        <div className="thumbnail-container">
+                          <img 
+                            src={movie.hinh_anh} 
+                            alt={`${movie.ten} - Poster`}
+                            className="description-thumb"
+                            loading="lazy"
+                          />
+                          <div className="thumbnail-overlay">
+                            <i className="bi bi-zoom-in"></i>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                )}
+                
+                <div className="description-text">
+                  <p>{movie.mo_ta || "Không có mô tả cho phim này."}</p>
+                </div>
               </div>
             </div>
           </Col>

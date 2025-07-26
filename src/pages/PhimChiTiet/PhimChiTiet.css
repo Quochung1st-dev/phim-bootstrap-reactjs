@@ -42,9 +42,8 @@
 }
 
 .movie-title {
-  font-size: 2.5rem;
+  font-size: 25px;
   font-weight: 700;
-  margin-bottom: 15px;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
@@ -123,7 +122,7 @@
   margin: 0;
 }
 
-/* Movie Info Content */
+/* Movie Info Content - Simple Column 8 Styling */
 .movie-info-content {
   background-color: rgba(26, 26, 26, 0.8);
   border-radius: 8px;
@@ -132,9 +131,40 @@
   height: fit-content;
 }
 
+.movie-title {
+  font-size: 25px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Simple Categories Section */
+.movie-categories-section {
+  margin-bottom: 20px;
+}
+
+.categories-title {
+  font-weight: 700;
+  color: #f8f9fa;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.movie-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Simple Meta Info Section */
+.movie-meta-info {
+  margin-bottom: 20px;
+}
+
 .movie-meta-info .info-row {
   display: flex;
   align-items: center;
+  padding: 5px 0;
 }
 
 .movie-meta-info .info-label {
@@ -145,6 +175,77 @@
 
 .movie-meta-info .info-value {
   color: #f8f9fa;
+  font-weight: 500;
+}
+
+/* Simple Description Section */
+.movie-description {
+  margin-bottom: 20px;
+}
+
+.description-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #f8f9fa;
+}
+
+/* Thumbnail Gallery - Keep this as is */
+.description-thumbnails {
+  margin-bottom: 20px;
+}
+
+.thumbnail-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.thumbnail-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.description-thumb {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.thumbnail-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.thumbnail-container:hover .thumbnail-overlay {
+  opacity: 1;
+}
+
+.thumbnail-overlay i {
+  color: white;
+  font-size: 1.5rem;
+}
+
+/* Description Text */
+.description-text p {
+  line-height: 1.8;
+  color: #e0e0e0;
+  font-size: 1rem;
+  margin: 0;
+  text-align: justify;
 }
 
 /* Action Buttons Sidebar */
@@ -510,7 +611,7 @@
   }
 
   .movie-title {
-    font-size: 2rem;
+    font-size: 20px;
   }
   
   .movie-actions-sidebar {
@@ -527,7 +628,7 @@
 
 @media (max-width: 767px) {
   .movie-title {
-    font-size: 1.8rem;
+    font-size: 18px;
   }
   
   .movie-player-container,
@@ -790,7 +891,9 @@
 }
 
 @media (max-width: 575px) {
-
+  .movie-poster-small {
+    max-width: 140px;
+  }
   
   .server-btn,
   .action-btn {
@@ -798,6 +901,103 @@
     height: 34px;
   }
   
+  .movie-actions-sidebar {
+    padding: 20px 15px;
+  }
+}
+
+/* Enhanced responsive for simple column 8 content */
+@media (max-width: 991px) {
+  .movie-info-content {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .description-thumb {
+    height: 100px;
+  }
+  
+  .movie-poster-small {
+    max-width: 180px;
+  }
+}
+
+@media (max-width: 767px) {
+  .movie-title {
+    font-size: 15px;
+  }
+  
+  .movie-info-content {
+    padding: 18px 15px;
+  }
+  
+  .categories-title,
+  .description-title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .movie-meta-info .info-label {
+    min-width: 90px;
+    font-size: 0.9rem;
+  }
+  
+  .movie-meta-info .info-value {
+    font-size: 0.9rem;
+  }
+  
+  .description-thumb {
+    height: 80px;
+  }
+  
+  .thumbnail-overlay i {
+    font-size: 1.2rem;
+  }
+  
+  .description-text p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+  
+  .movie-poster-small {
+    max-width: 160px;
+  }
+}
+
+@media (max-width: 575px) {
+  .movie-info-content {
+    padding: 15px 12px;
+  }
+  
+  .movie-title {
+    font-size: 15px;
+  }
+  
+  .categories-title,
+  .description-title {
+    font-size: 0.95rem;
+  }
+  
+  .description-thumb {
+    height: 70px;
+  }
+  
+  .movie-meta-info .info-label,
+  .movie-meta-info .info-value {
+    font-size: 0.85rem;
+  }
+  
+  .description-text p {
+    font-size: 0.9rem;
+  }
+  
+  .movie-poster-small {
+    max-width: 140px;
+  }
+}
+
+/* Action sidebar responsive */
+@media (max-width: 575px) {
   .movie-actions-sidebar {
     padding: 20px 15px;
   }
