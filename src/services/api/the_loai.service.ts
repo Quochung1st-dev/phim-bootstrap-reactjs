@@ -3,7 +3,7 @@ import { apiClient } from '../httpClient';
 import type { ApiResponse } from '../httpClient';
 import { API_ENDPOINTS } from '../httpEndpoint';
 import type { TheLoai, TheLoaiListResponse, TheLoaiQueryParams } from '../../types/the_loai.types';
-import type { Phim } from '../../types/phim.types';
+import type { Phim, PhimListResponse } from '../../types/phim.types';
 
 
 class TheLoaiService {
@@ -15,8 +15,8 @@ class TheLoaiService {
     return apiClient.get<TheLoaiListResponse>(API_ENDPOINTS.THELOAI.LIST,  params );
   }
 
-  async getChiTietTheLoai(slug: string): Promise<ApiResponse<Phim[]>> {
-    return apiClient.get<Phim[]>(API_ENDPOINTS.THELOAI.DETAIL(slug));
+  async getChiTietTheLoai(slug: string, params?: { page?: number; per_page?: number }): Promise<ApiResponse<PhimListResponse>> {
+    return apiClient.get<PhimListResponse>(API_ENDPOINTS.THELOAI.DETAIL(slug), params);
   }
 
 }

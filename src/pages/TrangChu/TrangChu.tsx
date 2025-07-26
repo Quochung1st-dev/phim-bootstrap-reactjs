@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pagination, Container } from 'react-bootstrap';
+import { Pagination, Container, Row } from 'react-bootstrap';
 import './TrangChu.css';
 import { phimService } from "../../services/api/phim.service";
 import type { Phim } from "../../types/phim.types";
@@ -66,16 +66,13 @@ export const TrangChu: React.FC = () => {
                             <p className="mt-2 text-light">Đang tải phim...</p>
                         </div>
                     ) : (
-                    // chia lưới 4 cột 
-                    <div className="movie-grid">
-                        {movies.map((movie) => (
-                            <MovieCard 
-                                key={movie.id} 
-                                movie={movie} 
-                                onClick={handleMovieClick}
-                            />
-                        ))}
-                    </div>
+                    <Row xs={2} sm={3} md={4} lg={5} className="g-3">
+                {movies.map((movie: Phim) => (
+                  <div key={movie.id} className="movie-grid-item">
+                    <MovieCard movie={movie} onClick={handleMovieClick} />
+                  </div>
+                ))}
+                </Row>
                     )}
                     
                     {/* Pagination controls */}

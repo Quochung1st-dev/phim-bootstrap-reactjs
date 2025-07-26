@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Breadcrumb, Pagination, Button, Row } from 'react-bootstrap';
-import { Link, useParams, useSearchParams, useNavigate } from 'react-router-dom';
-import { theLoaiService } from '../../services/api/the_loai.service';
+import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import { createPhimMoiUrl } from '../../routes/routePath';
+import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
-import type { TheLoai as TheLoaiType } from '../../types/the_loai.types';
 import MovieCard from '../../components/MovieCard/MovieCard';
-import './TheLoaiDetail.css';
+import './PhimMoi.css';
 
-const TheLoaiDetail: React.FC = () => {
+const PhimMoi: React.FC = () => {
   // States
-  const { slug } = useParams<{ slug: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [movies, setMovies] = useState<Phim[]>([]);
@@ -18,62 +17,56 @@ const TheLoaiDetail: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page')) || 1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalResults, setTotalResults] = useState<number>(0);
-  const [theLoaiInfo, setTheLoaiInfo] = useState<TheLoaiType | null>(null);
-
-  // Fetch phim theo thể loại
-  const fetchMoviesByGenre = async (page: number = 1) => {
-    if (!slug) return;
-
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Gọi API lấy phim theo thể loại với tham số phân trang
-      const response = await theLoaiService.getChiTietTheLoai(slug, { page: page, per_page: 20 });
-
-      if (response.data) {
-        // Lấy danh sách phim từ API
-        setMovies(response.data.items);
+  const itemsPerPage = 20; // Hiển thị 20 phim mỗi trang
+  
+  // Fetch phim mới cập nhật
+  useEffect(() => {
+    const fetchPhimMoi = async () => {
+      setLoading(true);
+      setError(null);
+      
+      try {
+        const params = {
+          page: currentPage,
+          per_page: itemsPerPage
+        };
         
-        // Lấy thông tin phân trang từ API
-        setTotalPages(response.data.pagination.last_page);
-        setTotalResults(response.data.pagination.total);
+        const response = await phimService.getPhimMoiCapNhat(params);
         
-        // Lấy thông tin thể loại từ phim đầu tiên (nếu có)
-        if (response.data.items.length > 0 && response.data.items[0].the_loai) {
-          const currentTheLoai = response.data.items[0].the_loai.find(tl => tl.slug === slug);
-          if (currentTheLoai) {
-            setTheLoaiInfo(currentTheLoai);
-            
-            // Cập nhật tiêu đề trang
-            document.title = `${currentTheLoai.ten} | Phim Hay`;
-          }
+        if (response.data && response.data.items) {
+          setMovies(response.data.items);
+          
+          // Lấy thông tin phân trang từ API
+          setTotalPages(response.data.pagination.last_page);
+          setTotalResults(response.data.pagination.total);
+          
+          // Cập nhật URL params
+          setSearchParams({ 
+            page: currentPage.toString() 
+          });
+          
+          // Cập nhật tiêu đề trang
+          document.title = 'Phim Mới Cập Nhật | Phim Hay';
+        } else {
+          setError('Không thể tải danh sách phim mới');
         }
-        
-        // Cập nhật URL params
-        setSearchParams({ 
-          page: page.toString() 
-        });
-      } else {
-        setError('Không thể tải danh sách phim');
+      } catch (err) {
+        console.error('Failed to fetch new movies:', err);
+        setError('Đã có lỗi xảy ra khi tải danh sách phim mới');
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('Failed to fetch movies by genre:', err);
-      setError('Đã có lỗi xảy ra khi tải danh sách phim');
-    } finally {
-      setLoading(false);
-    }
-  };
-
+    };
+    
+    fetchPhimMoi();
+  }, [currentPage, setSearchParams]);
+  
   // Page change handler
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     
     // Cập nhật URL với tham số page
-    navigate(`/the-loai/${slug}?page=${page}`);
-    
-    // Tải phim cho trang mới từ API
-    fetchMoviesByGenre(page);
+    navigate(createPhimMoiUrl(page));
     
     // Scroll to top of results
     window.scrollTo({
@@ -81,16 +74,7 @@ const TheLoaiDetail: React.FC = () => {
       behavior: 'smooth'
     });
   };
-
-  // Initial fetch on mount or when slug changes
-  useEffect(() => {
-    const page = Number(searchParams.get('page')) || 1;
-    setCurrentPage(page);
-    fetchMoviesByGenre(page);
-  }, [slug]);
-
-  // Không cần phân trang ở client nữa vì API đã trả về dữ liệu đã được phân trang
-
+  
   // Generate pagination items
   const getPaginationItems = () => {
     const items = [];
@@ -146,25 +130,23 @@ const TheLoaiDetail: React.FC = () => {
 
     return items;
   };
-
+  
   return (
-    <div className="the-loai-detail-page">
+    <div className="phim-moi-page">
       <Container>
         {/* Breadcrumb */}
         <Breadcrumb className="my-3">
           <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/' }}>Trang chủ</Breadcrumb.Item>
-          <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/the-loai' }}>Thể loại</Breadcrumb.Item>
-          <Breadcrumb.Item active>{theLoaiInfo?.ten || 'Đang tải...'}</Breadcrumb.Item>
+          <Breadcrumb.Item active>Phim mới</Breadcrumb.Item>
         </Breadcrumb>
-
-        {/* Khu vực hiển thị danh sách phim theo thể loại */}
+        {/* Khu vực hiển thị danh sách phim mới */}
         <div>
           {loading ? (
             <div className="text-center my-5">
               <div className="spinner-border text-danger" role="status">
                 <span className="visually-hidden">Đang tải...</span>
               </div>
-              <p className="mt-3">Đang tải danh sách phim...</p>
+              <p className="mt-3">Đang tải danh sách phim mới...</p>
             </div>
           ) : error ? (
             <div className="text-center my-5">
@@ -173,7 +155,7 @@ const TheLoaiDetail: React.FC = () => {
               <p>{error}</p>
               <Button 
                 variant="danger" 
-                onClick={() => fetchMoviesByGenre(currentPage)}
+                onClick={() => setCurrentPage(currentPage)}
               >
                 <i className="bi bi-arrow-clockwise me-2"></i>
                 Thử lại
@@ -181,20 +163,11 @@ const TheLoaiDetail: React.FC = () => {
             </div>
           ) : movies.length > 0 ? (
             <>
-              <h1 className="text-center mb-4">
-                Phim thể loại <span className="text-danger">{theLoaiInfo?.ten}</span>
-              </h1>
-              
-              {theLoaiInfo?.mo_ta && (
-                <p className="text-center mb-4">{theLoaiInfo.mo_ta}</p>
-              )}
-              
               <p className="text-center mb-4">
-                Tìm thấy <strong>{totalResults}</strong> phim thuộc thể loại này
+                Tổng cộng <strong>{totalResults}</strong> phim mới cập nhật
               </p>
               
-              {/* Grid 4 cột 5 hàng đơn giản */}
-              <Row xs={2} sm={3} md={4} lg={5} className="g-3">
+              <Row xs={2} sm={3} md={3} lg={4} className="g-3">
                 {movies.map((movie: Phim) => (
                   <div key={movie.id} className="movie-grid-item">
                     <MovieCard movie={movie} />
@@ -202,7 +175,7 @@ const TheLoaiDetail: React.FC = () => {
                 ))}
                 </Row>
               
-              {/* Phân trang đơn giản */}
+              {/* Phân trang */}
               {totalPages > 1 && (
                 <div className="d-flex justify-content-center mt-4">
                   <Pagination>
@@ -232,20 +205,14 @@ const TheLoaiDetail: React.FC = () => {
           ) : (
             <div className="text-center my-5">
               <i className="bi bi-film fs-1"></i>
-              <h2 className="mt-3">Không tìm thấy phim</h2>
+              <h2 className="mt-3">Không có phim mới</h2>
               <p>
-                Không có phim nào thuộc thể loại này.
+                Hiện tại chưa có phim mới được cập nhật.
               </p>
-              <div className="d-flex justify-content-center gap-3">
-                <Button variant="outline-light" onClick={() => navigate('/')}>
-                  <i className="bi bi-house-door me-1"></i>
-                  Về trang chủ
-                </Button>
-                <Button variant="danger" onClick={() => navigate('/the-loai')}>
-                  <i className="bi bi-grid me-1"></i>
-                  Xem thể loại khác
-                </Button>
-              </div>
+              <Button variant="outline-light" onClick={() => navigate('/')}>
+                <i className="bi bi-house-door me-1"></i>
+                Về trang chủ
+              </Button>
             </div>
           )}
         </div>
@@ -254,4 +221,4 @@ const TheLoaiDetail: React.FC = () => {
   );
 };
 
-export default TheLoaiDetail;
+export default PhimMoi;

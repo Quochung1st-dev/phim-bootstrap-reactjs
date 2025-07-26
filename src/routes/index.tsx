@@ -1,15 +1,17 @@
 import type { RouteObject } from 'react-router-dom';
+import routePath from './routePath';
 import PublicLayout from '../layout/PublicLayout';
 import TrangChu from '../pages/TrangChu/TrangChu';
 import PhimChiTiet from '../pages/PhimChiTiet/PhimChiTiet';
 import TimKiem from '../pages/TimKiem/TimKiem';
 import TheLoai from '../pages/TheLoai/TheLoai';
 import TheLoaiDetail from '../pages/TheLoai/TheLoaiDetail';
+import PhimMoi from '../pages/PhimMoi/PhimMoi';
 
 
 const routes: RouteObject[] = [
   {
-    path: "/",
+    path: routePath.TRANGCHU,
     element: <PublicLayout />,
     children: [
       {
@@ -17,25 +19,25 @@ const routes: RouteObject[] = [
         element: <TrangChu />
       },
       {
-        path: "/tim-kiem",
+        path: routePath.TIM_KIEM,
         element: <TimKiem />
       },
       {
-        path: "/the-loai",
+        path: routePath.THE_LOAI.LIST,
         element: <TheLoai />
       },
       {
-        path: "/the-loai/:slug",
+        path: routePath.THE_LOAI.DETAIL(':slug'),
         element: <TheLoaiDetail />
       },
       {
-        path: "/:slug",
+        path: routePath.PHIM_MOI,
+        element: <PhimMoi />
+      },
+      {
+        path: routePath.MOVIE_DETAIL(':slug'),
         element: <PhimChiTiet />
       },
-    //   {
-    //     path: "dich-vu",
-    //     element: <DichVu />
-    //   },
     ]
   },
 ];

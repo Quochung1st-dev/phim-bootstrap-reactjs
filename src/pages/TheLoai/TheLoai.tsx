@@ -168,7 +168,7 @@ const TheLoai: React.FC = () => {
                     ) : (
                       <>
                         <i className="bi bi-plus-circle me-2"></i>
-                        Xem Thêm 20 Thể Loại
+                        Xem Thêm
                       </>
                     )}
                   </Button>

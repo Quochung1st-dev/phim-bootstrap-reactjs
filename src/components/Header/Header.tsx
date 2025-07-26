@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import routePath from '../../routes/routePath';
 import { Container, Navbar, Nav, NavDropdown, Form, Button, Spinner, InputGroup } from 'react-bootstrap';
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import './Header.css';
@@ -101,7 +102,7 @@ const Header: React.FC = () => {
     <header className="site-header">
       <Navbar expand="lg" bg="dark" variant="dark" className="py-2">
         <Container>
-          <Navbar.Brand as={Link} to="/" className="logo">
+          <Navbar.Brand as={Link} to={routePath.TRANGCHU} className="logo">
             <span className="text-danger fw-bold">PHIM</span>
             <span className="text-light">HAY</span>
           </Navbar.Brand>
@@ -213,24 +214,10 @@ const Header: React.FC = () => {
             
             {/* Menu on the right */}
             <Nav className="ms-auto">
-              <Nav.Link as={Link} to="/">Trang Chủ</Nav.Link>
-              <Nav.Link as={Link} to="/phim-moi">Phim Mới</Nav.Link>
-              <NavDropdown title="Thể Loại" id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/the-loai/hanh-dong">Hành Động</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/the-loai/tinh-cam">Tình Cảm</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/the-loai/hai-huoc">Hài Hước</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/the-loai/kinh-di">Kinh Dị</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/the-loai">Tất Cả Thể Loại</NavDropdown.Item>
-              </NavDropdown>
-              <NavDropdown title="Quốc Gia" id="country-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/quoc-gia/viet-nam">Việt Nam</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/quoc-gia/trung-quoc">Trung Quốc</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/quoc-gia/han-quoc">Hàn Quốc</NavDropdown.Item>
-                <NavDropdown.Item as={Link} to="/quoc-gia/my">Mỹ</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/quoc-gia">Tất Cả Quốc Gia</NavDropdown.Item>
-              </NavDropdown>
+              <Nav.Link as={Link} to={routePath.TRANGCHU}>Trang Chủ</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_MOI}>Phim Mới</Nav.Link>
+              <Nav.Link as={Link} to={routePath.THE_LOAI.LIST}>Thể loại</Nav.Link>
+              
             </Nav>
           </Navbar.Collapse>
         </Container>
