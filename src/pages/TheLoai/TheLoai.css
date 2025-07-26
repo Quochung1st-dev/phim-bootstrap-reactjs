@@ -49,6 +49,21 @@
   transition: all 0.3s ease;
 }
 
+.genre-badge {
+  word-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.genre-badge:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
 .genre-badge-link:hover {
   transform: translateY(-3px);
 }

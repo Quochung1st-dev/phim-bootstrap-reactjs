@@ -13,8 +13,8 @@ const TheLoai: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
-  const initialItemsPerPage = 84; // Ban đầu hiện 84 thể loại
-  const loadMoreCount = 42; // Mỗi lần load thêm 42 thể loại
+  const initialItemsPerPage = 50; // Ban đầu hiện 50 thể loại
+  const loadMoreCount = 20; // Mỗi lần load thêm 20 thể loại
   
   // Fetch thể loại info
   useEffect(() => {
@@ -24,21 +24,21 @@ const TheLoai: React.FC = () => {
       setAllTheLoai([]);
       
       try {
-        // Lấy ban đầu 84 thể loại để hiển thị danh sách
+        // Lấy ban đầu 50 thể loại để hiển thị danh sách
         const params = {
           page: 1,
-          per_page: initialItemsPerPage // Ban đầu lấy 84 thể loại
+          per_page: initialItemsPerPage // Ban đầu lấy 50 thể loại
         };
         
         const allResponse = await theLoaiService.getDanhSachTheLoai(params);
         
-        if (allResponse.data && Array.isArray(allResponse.data)) {
-          setAllTheLoai(allResponse.data);
+        if (allResponse.data && allResponse.data.items) {
+          setAllTheLoai(allResponse.data.items);
           
-          // Kiểm tra xem có thể loại để load thêm không
-          if (allResponse.data && allResponse.data.length >= initialItemsPerPage) {
-            // Nếu API không trả về thông tin phân trang, chúng ta có thể đoán dựa trên kích thước kết quả
-            setHasMore(true);
+          // Kiểm tra xem có thể loại để load thêm không dựa vào thông tin phân trang
+          if (allResponse.data.pagination) {
+            // Sử dụng thông tin phân trang từ API để xác định có thêm dữ liệu hay không
+            setHasMore(allResponse.data.pagination.current_page < allResponse.data.pagination.last_page);
           } else {
             setHasMore(false);
           }
@@ -67,19 +67,21 @@ const TheLoai: React.FC = () => {
     try {
       const params = {
         page: nextPage,
-        per_page: loadMoreCount
+        per_page: loadMoreCount // Tải thêm 20 thể loại
       };
       
       const response = await theLoaiService.getDanhSachTheLoai(params);
       
-      if (response && response.data && Array.isArray(response.data)) {
+      if (response && response.data && response.data.items) {
         // Thêm vào danh sách thể loại hiện tại
-        const newTheLoai = response.data;
+        const newTheLoai = response.data.items;
         setAllTheLoai(prevTheLoai => [...prevTheLoai, ...newTheLoai]);
         setCurrentPage(nextPage);
         
-        // Kiểm tra xem còn thể loại để load thêm không
-        if (newTheLoai.length < loadMoreCount) {
+        // Kiểm tra xem còn thể loại để load thêm không dựa vào thông tin phân trang
+        if (response.data.pagination) {
+          setHasMore(response.data.pagination.current_page < response.data.pagination.last_page);
+        } else {
           setHasMore(false);
         }
         
@@ -129,7 +131,7 @@ const TheLoai: React.FC = () => {
             </div>
           ) : (
             <div className="genre-list mt-4">
-              <Row xs={2} sm={3} md={4} lg={6} className="g-3">
+              <Row xs={2} sm={3} md={4} lg={5} className="g-3">
                 {allTheLoai.map(theLoai => (
                   <Col key={theLoai.id}>
                     <Link 
@@ -137,8 +139,9 @@ const TheLoai: React.FC = () => {
                       className="genre-badge-link"
                     >
                       <Badge 
-                        className="genre-badge w-100 py-2" 
+                        className="genre-badge w-100 py-2 text-wrap" 
                         bg="secondary"
+                        style={{ minHeight: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                       >
                         {theLoai.ten}
                       </Badge>
@@ -165,7 +168,7 @@ const TheLoai: React.FC = () => {
                     ) : (
                       <>
                         <i className="bi bi-plus-circle me-2"></i>
-                        Xem Thêm Thể Loại
+                        Xem Thêm 20 Thể Loại
                       </>
                     )}
                   </Button>
