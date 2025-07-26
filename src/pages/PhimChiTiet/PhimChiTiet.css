@@ -48,7 +48,6 @@
 .movie-player {
   position: relative;
   width: 100%;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
   background-color: #000;
   border-radius: 4px;
   overflow: hidden;
@@ -65,19 +64,7 @@
   background-color: #000;
 }
 
-/* Custom video controls styling */
-.movie-player video::-webkit-media-controls-panel {
-  background-color: rgba(0, 0, 0, 0.8);
-}
 
-.movie-player video::-webkit-media-controls-play-button {
-  background-color: #e50914;
-  border-radius: 50%;
-}
-
-.movie-player video::-webkit-media-controls-timeline {
-  background-color: rgba(255, 255, 255, 0.3);
-}
 
 .movie-player video::-webkit-media-controls-current-time-display,
 .movie-player video::-webkit-media-controls-time-remaining-display {
@@ -126,6 +113,7 @@
   padding: 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   height: fit-content;
+  margin-bottom: 30px;
 }
 
 .movie-title {
@@ -348,6 +336,7 @@
   padding: 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   height: fit-content;
+  margin-bottom: 30px;
 }
 
 .movie-poster-small {
