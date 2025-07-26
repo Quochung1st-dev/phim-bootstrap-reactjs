@@ -8,6 +8,7 @@ import MovieCard from '../../components/MovieCard/MovieCard';
 import './TheLoaiDetail.css';
 import CustomBreadcrumb from '../../components/CustomBreadcrumb';
 import routePath from '../../routes/routePath';
+import CustomPagination from '../../components/CustomPagination';
 
 const TheLoaiDetail: React.FC = () => {
   // States
@@ -203,33 +204,15 @@ const TheLoaiDetail: React.FC = () => {
                   </div>
                 ))}
                 </Row>
-              
-              {/* Phân trang đơn giản */}
+              {/* Phân trang */}
               {totalPages > 1 && (
-                <div className="d-flex justify-content-center mt-4">
-                  <Pagination>
-                    <Pagination.First 
-                      onClick={() => handlePageChange(1)} 
-                      disabled={currentPage === 1}
-                    />
-                    <Pagination.Prev
-                      disabled={currentPage === 1}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    />
-                    
-                    {getPaginationItems()}
-                    
-                    <Pagination.Next
-                      disabled={currentPage === totalPages}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    />
-                    <Pagination.Last 
-                      onClick={() => handlePageChange(totalPages)} 
-                      disabled={currentPage === totalPages}
-                    />
-                  </Pagination>
-                </div>
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               )}
+  
             </>
           ) : (
             <div className="text-center my-5">

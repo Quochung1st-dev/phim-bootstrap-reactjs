@@ -5,6 +5,7 @@ import { phimService } from "../../services/api/phim.service";
 import type { Phim } from "../../types/phim.types";
 import MovieCard from "../../components/MovieCard/MovieCard";
 import { useNavigate } from "react-router-dom";
+import CustomPagination from "../../components/CustomPagination";
 
 export const TrangChu: React.FC = () => {
     const navigate = useNavigate();
@@ -74,59 +75,14 @@ export const TrangChu: React.FC = () => {
                 ))}
                 </Row>
                     )}
-                    
-                    {/* Pagination controls */}
-                    {!loading && totalPages > 1 && (
-                        <div className="d-flex justify-content-center mt-4">
-                            <Pagination size="lg" className="custom-pagination">
-                                <Pagination.First 
-                                    disabled={currentPage === 1}
-                                    onClick={() => handlePageChange(1)} 
-                                />
-                                <Pagination.Prev 
-                                    disabled={currentPage === 1}
-                                    onClick={() => handlePageChange(currentPage - 1)} 
-                                />
-                                
-                                {/* Show max 5 page numbers */}
-                                {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                                    let pageNum;
-                                    if (totalPages <= 5) {
-                                        // If 5 or fewer pages, show all pages
-                                        pageNum = i + 1;
-                                    } else if (currentPage <= 3) {
-                                        // If current page is near the beginning
-                                        pageNum = i + 1;
-                                    } else if (currentPage >= totalPages - 2) {
-                                        // If current page is near the end
-                                        pageNum = totalPages - 4 + i;
-                                    } else {
-                                        // If current page is in the middle
-                                        pageNum = currentPage - 2 + i;
-                                    }
-                                    
-                                    return (
-                                        <Pagination.Item 
-                                            key={pageNum} 
-                                            active={pageNum === currentPage}
-                                            onClick={() => handlePageChange(pageNum)}
-                                        >
-                                            {pageNum}
-                                        </Pagination.Item>
-                                    );
-                                })}
-                                
-                                <Pagination.Next 
-                                    disabled={currentPage === totalPages}
-                                    onClick={() => handlePageChange(currentPage + 1)} 
-                                />
-                                <Pagination.Last 
-                                    disabled={currentPage === totalPages}
-                                    onClick={() => handlePageChange(totalPages)} 
-                                />
-                            </Pagination>
-                        </div>
-                    )}
+                    {/* Phân trang */}
+              {totalPages > 1 && (
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
                 </div>
             </div>
             </Container>
