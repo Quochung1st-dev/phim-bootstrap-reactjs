@@ -214,7 +214,7 @@ const PhimChiTiet: React.FC = () => {
       />
     </Container>
     <div className="phim-chi-tiet-page">
-      <Container className="movie-detail-container py-5">
+      <Container className="movie-detail-container">
         {/* Video Player Section - Full Width */}
         <Row className="mb-4">
           <Col xs={12}>

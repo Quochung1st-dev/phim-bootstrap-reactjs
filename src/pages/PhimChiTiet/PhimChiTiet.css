@@ -1,8 +1,6 @@
 .phim-chi-tiet-page {
   position: relative;
-  min-height: 100vh;
   color: white;
-  padding-bottom: 30px;
 }
 
 /* Hero background section */
@@ -36,7 +34,6 @@
 .movie-player-container {
   background-color: rgba(26, 26, 26, 0.9);
   border-radius: 8px;
-  padding: 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   border: 2px solid #e50914;
 }
@@ -419,9 +416,7 @@
 }
 
 /* Movie player */
-.movie-player-container {
-  margin-top: 40px;
-}
+
 
 .movie-player {
   position: relative;
@@ -727,11 +722,7 @@
     font-size: 18px;
   }
   
-  .movie-player-container,
-  .movie-info-content,
-  .movie-actions-sidebar {
-    padding: 20px;
-  }
+
 
 }
 
