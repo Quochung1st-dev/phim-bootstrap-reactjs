@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Button, Pagination } from 'react-bootstrap';
+import { Container, Form, Button, Pagination, Row } from 'react-bootstrap';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import './TimKiem.css';
+import CustomBreadcrumb from '../../components/CustomBreadcrumb';
+import routePath from '../../routes/routePath';
 
 const TimKiem: React.FC = () => {
   // States
@@ -165,6 +167,13 @@ const TimKiem: React.FC = () => {
   };
 
   return (
+    <>
+    <CustomBreadcrumb
+        items={[
+          { label: 'Trang chủ', path: '/', icon: 'bi-house-door' },
+          { label: `Tìm kiếm: ${searchQuery}`, path: routePath.TIM_KIEM }
+        ]}
+      />
     <div className="tim-kiem-page">
       <Container>
 
@@ -197,13 +206,13 @@ const TimKiem: React.FC = () => {
               </p>
               
               {/* Grid 4 cột 5 hàng đơn giản */}
-              <div className="movie-grid">
-                {movies.slice(0, 20).map((movie) => (
+              <Row xs={2} sm={3} md={3} lg={4} className="g-3">
+                {movies.map((movie: Phim) => (
                   <div key={movie.id} className="movie-grid-item">
                     <MovieCard movie={movie} />
                   </div>
                 ))}
-              </div>
+                </Row>
               
               {/* Phân trang đơn giản */}
               {totalPages > 1 && (
@@ -263,6 +272,7 @@ const TimKiem: React.FC = () => {
         </div>
       </Container>
     </div>
+    </>
   );
 };
 

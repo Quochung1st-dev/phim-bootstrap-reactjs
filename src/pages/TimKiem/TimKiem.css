@@ -1,5 +1,4 @@
 .tim-kiem-page {
-  padding: 40px 0;
   color: white;
 }
 
@@ -384,9 +383,6 @@
 }
 
 @media (max-width: 767.98px) {
-  .tim-kiem-page {
-    padding: 20px 0;
-  }
   
   .search-title {
     font-size: 1.8rem;
