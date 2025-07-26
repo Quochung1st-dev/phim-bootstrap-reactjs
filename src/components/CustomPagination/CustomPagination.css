@@ -1,36 +1,76 @@
-.custom-pagination .page-item .page-link {
-  background-color: #212529;
-  border-color: #373b3e;
+.custom-pagination-wrapper .custom-pagination .page-item .page-link {
+  background-color: #1a1a1a;
+  border-color: #333333;
   color: #f8f9fa;
   min-width: 40px;
   text-align: center;
   transition: all 0.2s ease;
+  margin: 0 2px;
+  border-radius: 4px;
+  font-weight: 500;
+  padding: 8px 12px;
 }
 
-.custom-pagination .page-item.active .page-link {
+.custom-pagination-wrapper .custom-pagination .page-item.active .page-link {
   background-color: #e50914; /* Màu đỏ Netflix */
   border-color: #e50914;
   color: #ffffff;
   font-weight: 600;
+  box-shadow: 0 0 8px rgba(229, 9, 20, 0.5);
 }
 
-.custom-pagination .page-item .page-link:hover:not(.disabled) {
-  background-color: #343a40;
+.custom-pagination-wrapper .custom-pagination .page-item .page-link:hover:not(.disabled) {
+  background-color: #333333;
   border-color: #e50914;
   color: #e50914;
+  z-index: 2;
 }
 
-.custom-pagination .page-item.disabled .page-link {
-  background-color: #343a40;
-  border-color: #373b3e;
+.custom-pagination-wrapper .custom-pagination .page-item.disabled .page-link {
+  background-color: #2a2a2a;
+  border-color: #333333;
   color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
-/* Responsive adjustments */
-@media (max-width: 576px) {
-  .custom-pagination .page-link {
-    font-size: 0.875rem;
-    min-width: 32px;
-    padding: 0.25rem 0.5rem;
-  }
+/* Đặc biệt cho nút First, Prev, Next, Last */
+.custom-pagination-wrapper .custom-pagination .page-item:first-child .page-link,
+.custom-pagination-wrapper .custom-pagination .page-item:last-child .page-link {
+  border-radius: 4px;
+}
+
+/* Thiết lập màu đen cho nền và màu trắng cho chữ */
+.custom-pagination-wrapper {
+  background-color: transparent;
+}
+
+.custom-pagination-wrapper .custom-pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+  margin-bottom: 0;
+}
+
+/* Tùy chỉnh dấu ... */
+.custom-pagination-wrapper .custom-pagination .page-item .page-link[aria-label="..."] {
+  background-color: #1a1a1a;
+  border-color: #333333;
+  color: #f8f9fa;
+}
+
+/* Ghi đè để đảm bảo styling nhất quán */
+.custom-pagination-wrapper .custom-pagination .page-item .page-link {
+  background-color: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  color: white !important;
+  padding: 0.5rem 1rem;
+}
+
+.custom-pagination-wrapper .custom-pagination .page-item.active .page-link {
+  background-color: #e50914 !important;
+  border-color: #e50914 !important;
+  color: white !important;
+  font-weight: normal;
 }
