@@ -1,6 +1,6 @@
 main {
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0;
     min-height: calc(100vh - 140px); /* Adjusting for header and footer */
     background-color: #121212;
 }

@@ -51,4 +51,5 @@ const MovieCard: React.FC<MovieCardProps> = ({
   );
 };
 
-export default MovieCard;
+// Tối ưu với React.memo để tránh re-render không cần thiết
+export default React.memo(MovieCard);

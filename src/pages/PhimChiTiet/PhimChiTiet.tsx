@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
 import { useParams, Link } from 'react-router-dom';
 import { phimService } from '../../services/api/phim.service';
@@ -32,15 +32,17 @@ const PhimChiTiet: React.FC = () => {
   };
   
   // Function to get video source based on selected server
-  const getVideoSource = () => {
+  const getVideoSource = useCallback(() => {
+    if (!movie) return '';
+    
     if (selectedServer === 1) {
       // Server 1: Use online link
-      return movie?.link_online || '';
+      return movie.link_online || '';
     } else {
       // Server 2: Use local link
-      return movie?.link_phim_local || '';
+      return movie.link_phim_local || '';
     }
-  };
+  }, [movie, selectedServer]);
 
   // Function to handle server change
   const handleServerChange = (serverNumber: number) => {
@@ -91,11 +93,39 @@ const PhimChiTiet: React.FC = () => {
     if (video && movie) {
       const source = getVideoSource();
       if (source) {
-        video.src = source;
-        video.load();
+        // Dùng Promise để load video bất đồng bộ
+        const preloadVideo = () => {
+          return new Promise((resolve, reject) => {
+            video.src = source;
+            
+            // Lắng nghe sự kiện load
+            const handleCanPlayThrough = () => {
+              resolve(true);
+              video.removeEventListener('canplaythrough', handleCanPlayThrough);
+            };
+            
+            // Lắng nghe sự kiện lỗi
+            const handleError = (error: Event) => {
+              console.error('Video loading error:', error);
+              reject(error);
+              video.removeEventListener('error', handleError);
+            };
+            
+            video.addEventListener('canplaythrough', handleCanPlayThrough, { once: true });
+            video.addEventListener('error', handleError, { once: true });
+            
+            // Bắt đầu preload video
+            video.load();
+          });
+        };
+        
+        // Gọi hàm preload
+        preloadVideo().catch(error => {
+          console.error('Failed to preload video:', error);
+        });
       }
     }
-  }, [movie, selectedServer]);
+  }, [movie, selectedServer, getVideoSource]);
 
   // Auto select available server when movie loads
   useEffect(() => {
@@ -129,11 +159,10 @@ const PhimChiTiet: React.FC = () => {
           document.title = `${response.data.ten} | Phim Hay`;
           // Also save to localStorage viewed movies if this feature exists
           if (phimService.savePhimDaXemLocalStorage) {
-            await phimService.savePhimDaXemLocalStorage(response.data);
+            phimService.savePhimDaXemLocalStorage(response.data).catch(err => 
+              console.error("Error saving viewed movie:", err)
+            );
           }
-            
-          // Fetch related movies (first page)
-          await loadRelatedMovies(slug, 1);
         } else {
           setError("Không thể tải thông tin phim");
         }
@@ -153,8 +182,16 @@ const PhimChiTiet: React.FC = () => {
     };
   }, [slug]);
   
+  // Load related movies after main movie details are loaded
+  useEffect(() => {
+    if (movie && slug && !loading) {
+      // Fetch related movies (first page) after main content is loaded
+      loadRelatedMovies(slug, 1);
+    }
+  }, [movie, slug, loading]);
+  
   // Function to load related movies
-  const loadRelatedMovies = async (slugParam: string, page: number) => {
+  const loadRelatedMovies = useCallback(async (slugParam: string, page: number) => {
     if (!slugParam) return;
     
     try {
@@ -195,7 +232,7 @@ const PhimChiTiet: React.FC = () => {
     } finally {
       setIsLoadingMore(false);
     }
-  };
+  }, []);
   
   // Function to handle load more button click
   const handleLoadMoreRelatedMovies = () => {
@@ -248,9 +285,31 @@ const PhimChiTiet: React.FC = () => {
     }
   };
 
-  if (loading) return;
+  // Handle loading state display more efficiently
+  if (loading) return (
+    <Container>
+      <div className="text-center my-5">
+        <div className="spinner-border text-danger" role="status">
+          <span className="visually-hidden">Đang tải...</span>
+        </div>
+        <p className="mt-3">Đang tải thông tin phim...</p>
+      </div>
+    </Container>
+  );
 
-  if (error || !movie) return;
+  if (error || !movie) return (
+    <Container>
+      <div className="text-center my-5">
+        <i className="bi bi-exclamation-triangle fs-1 text-danger"></i>
+        <h2 className="mt-3">Đã xảy ra lỗi</h2>
+        <p>{error || "Không thể tải thông tin phim"}</p>
+        <Button variant="danger" onClick={() => window.location.reload()}>
+          <i className="bi bi-arrow-clockwise me-2"></i>
+          Thử lại
+        </Button>
+      </div>
+    </Container>
+  );
 
   return (
     <>
@@ -431,6 +490,8 @@ const PhimChiTiet: React.FC = () => {
                               alt={`${movie.ten} - Thumbnail ${index + 1}`}
                               className="description-thumb"
                               loading="lazy"
+                              width="100%"
+                              height="auto"
                             />
                             <div className="thumbnail-overlay">
                               <i className="bi bi-zoom-in"></i>
