@@ -22,3 +22,13 @@ main::before {
     pointer-events: none;
     z-index: -1;
 }
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    main {
+        padding: 5px;
+    }
+    .container {
+        padding: 0 10px;
+    }
+}

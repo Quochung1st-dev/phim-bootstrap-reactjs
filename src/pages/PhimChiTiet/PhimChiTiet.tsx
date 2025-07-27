@@ -6,6 +6,7 @@ import type { Phim } from '../../types/phim.types';
 import './PhimChiTiet.css';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import CustomBreadcrumb from '../../components/CustomBreadcrumb';
+import { toast } from 'react-toastify';
 
 const PhimChiTiet: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
@@ -90,13 +91,9 @@ const PhimChiTiet: React.FC = () => {
     if (video && movie) {
       const source = getVideoSource();
       if (source) {
-        console.log('Setting initial video source:', source);
-        // Update source element
-        const sourceElement = video.querySelector('source');
-        if (sourceElement) {
-          sourceElement.src = source;
-          video.load();
-        }
+        console.log('Setting video source:', source);
+        video.src = source;
+        video.load();
       }
     }
   }, [movie, selectedServer]);
@@ -208,30 +205,34 @@ const PhimChiTiet: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <Container className="py-5 text-center">
-        <div className="spinner-border text-danger" role="status">
-          <span className="visually-hidden">Đang tải...</span>
-        </div>
-        <p className="mt-2 text-light">Đang tải thông tin phim...</p>
-      </Container>
-    );
+  const handleActionLike = async (slug: string) => {
+    if (!slug) return;
+    try {
+      const response = await phimService.likePhimAction(slug);
+      if (response.success) {
+        toast.success('Thích phim thành công!');
+      } else {
+        toast.error('Không thể thích phim này');
+      }
+    } catch (err) {
+      console.error('Error liking movie:', err);
+      toast.error('Đã có lỗi xảy ra khi thích phim');
+    }
   }
 
-  if (error || !movie) {
-    return (
-      <Container className="py-5 text-center">
-        <div className="error-container">
-          <h3 className="text-danger">Đã có lỗi xảy ra</h3>
-          <p className="text-light">{error || "Không thể tải thông tin phim"}</p>
-          <Button variant="outline-light" onClick={() => window.history.back()}>
-            Quay lại
-          </Button>
-        </div>
-      </Container>
-    );
-  }
+  const handleLuuTruPhim = async (phim: Phim) => {
+    try {
+      await phimService.savePhimLuuTruLocalStorage(phim);
+      toast.success('Đã lưu phim vào danh sách yêu thích');
+    } catch (err) {
+      console.error('Error saving movie:', err);
+      toast.error('Đã có lỗi xảy ra khi lưu phim');
+    }
+  };
+
+  if (loading) return;
+
+  if (error || !movie) return;
 
   return (
     <>
@@ -397,13 +398,13 @@ const PhimChiTiet: React.FC = () => {
                 <div className="action-row-2 mb-3">
                   <Row className="g-2">
                     <Col xs={6}>
-                      <Button variant="outline-light" className="w-100 action-btn" size="sm">
+                      <Button variant="outline-light" className="w-100 action-btn" size="sm" onClick={() => handleLuuTruPhim(movie)}>
                         <i className="bi bi-bookmark-plus me-1"></i>
                         Lưu Trữ
                       </Button>
                     </Col>
                     <Col xs={6}>
-                      <Button variant="outline-danger" className="w-100 action-btn" size="sm">
+                      <Button variant="outline-danger" className="w-100 action-btn" size="sm" onClick={() => handleActionLike(movie.slug)}>
                         <i className="bi bi-heart me-1"></i>
                         Like
                       </Button>

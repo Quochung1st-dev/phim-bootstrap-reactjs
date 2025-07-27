@@ -14,11 +14,23 @@ class PhimService {
     return apiClient.get<PhimListResponse>(API_ENDPOINTS.PHIMMOICAPNHAT.LIST, params);
   }
 
+  async getPhimXemNhieuNhat(params: PhimMoiCapNhatQueryParams): Promise<ApiResponse<PhimListResponse>> {
+    return apiClient.get<PhimListResponse>(API_ENDPOINTS.PHIMXEMNHIEUNHAT.LIST, params);
+  }
+
+  async getPhimHayNhat(params: PhimMoiCapNhatQueryParams): Promise<ApiResponse<PhimListResponse>> {
+    return apiClient.get<PhimListResponse>(API_ENDPOINTS.PHIMHAYNHAT.LIST, params);
+  }
+
   async getPhimBySlug(slug: string): Promise<ApiResponse<Phim>> {
     return apiClient.get<Phim>(API_ENDPOINTS.PHIM.DETAIL(slug));
   }
 
-  async getPhimListDanhSach(params: {array_id: number[]}): Promise<ApiResponse<PhimListResponse>> {
+  async likePhimAction(slug: string): Promise<ApiResponse<Phim>> {
+    return apiClient.get<Phim>(API_ENDPOINTS.PHIM.ACTIONLIKE(slug));
+  }
+
+  async getPhimListDanhSach(params: {array_id: number[], per_page: number, page: number}): Promise<ApiResponse<PhimListResponse>> {
     return apiClient.post<PhimListResponse>(API_ENDPOINTS.PHIMLISTDANHSACH.LIST, params);
   }
 
@@ -54,7 +66,7 @@ class PhimService {
   }
 
   async savePhimLuuTruLocalStorage(phim: Phim): Promise<void> {
-      const MAX_ITEMS = 50; // Tăng limit cho danh sách lưu trữ
+      const MAX_ITEMS = 5000; // Tăng limit cho danh sách lưu trữ
       let phimLuuTru = JSON.parse(localStorage.getItem('phimLuuTru') || '[]') as number[];
 
       // Xoá nếu đã tồn tại để đưa lên đầu

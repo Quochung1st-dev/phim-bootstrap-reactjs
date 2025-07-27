@@ -21,6 +21,15 @@ export const routePath = {
   // Trang phim mới
   PHIM_MOI: '/phim-moi',
 
+  // Trang phim xem nhiều
+  PHIM_XEM_NHIEU: '/phim-xem-nhieu',
+
+  // Trang phim hay nhất
+  PHIM_HAY_NHAT: '/phim-hay-nhat',
+
+  // Trang phim lưu trữ
+  PHIM_LUU_TRU: '/phim-luu-tru',
+
   // Trang chi tiết phim
   MOVIE_DETAIL: (slug: string) => `/${slug}`,
 
@@ -57,6 +66,33 @@ export const createGenreUrl = (slug: string, page: number = 1): string => {
  */
 export const createPhimMoiUrl = (page: number = 1): string => {
   return `${routePath.PHIM_MOI}?page=${page}`;
+};
+
+/**
+ * Hàm tạo URL phim xem nhiều với tham số trang
+ * @param page Số trang (mặc định là 1)
+ * @returns URL phim xem nhiều đã được định dạng
+ */
+export const createPhimXemNhieuUrl = (page: number = 1): string => {
+  return `${routePath.PHIM_XEM_NHIEU}?page=${page}`;
+};
+
+/**
+ * Hàm tạo URL phim hay nhất với tham số trang
+ * @param page Số trang (mặc định là 1)
+ * @returns URL phim hay nhất đã được định dạng
+ */
+export const createPhimHayNhatUrl = (page: number = 1): string => {
+  return `${routePath.PHIM_HAY_NHAT}?page=${page}`;
+};
+
+/**
+ * Hàm tạo URL phim lưu trữ với tham số trang
+ * @param page Số trang (mặc định là 1)
+ * @returns URL phim lưu trữ đã được định dạng
+ */
+export const createPhimLuuTruUrl = (page: number = 1): string => {
+  return `${routePath.PHIM_LUU_TRU}?page=${page}`;
 };
 
 export default routePath;

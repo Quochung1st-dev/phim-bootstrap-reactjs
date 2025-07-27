@@ -206,6 +206,9 @@ const Header: React.FC = () => {
             <Nav className="ms-auto">
               <Nav.Link as={Link} to={routePath.TRANGCHU}>Trang Chủ</Nav.Link>
               <Nav.Link as={Link} to={routePath.PHIM_MOI}>Phim Mới</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_XEM_NHIEU}>Phim Xem Nhiều</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_HAY_NHAT}>Phim Hay Nhất</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_LUU_TRU}>Phim Lưu Trữ</Nav.Link>
               <Nav.Link as={Link} to={routePath.THE_LOAI.LIST}>Thể loại</Nav.Link>
               
             </Nav>

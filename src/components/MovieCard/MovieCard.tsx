@@ -36,12 +36,12 @@ const MovieCard: React.FC<MovieCardProps> = ({
           loading="lazy"
           onError={handleImageError}
         />
-        <div className="movie-info">
-          <p className="movie-title" title={movie.ten}>{movie.ten}</p>
+        <div className="movie-card-info">
+          <p className="movie-card-title" title={movie.ten}>{movie.ten}</p>
           {movie.the_loai && movie.the_loai.length > 0 && (
-            <div className="movie-tags">
+            <div className="movie-card-tags">
               {movie.the_loai.slice(0, 2).map((tag, index) => (
-                <span key={index} className="movie-tag">{tag.ten}</span>
+                <span key={index} className="movie-card-tag">{tag.ten}</span>
               ))}
             </div>
           )}

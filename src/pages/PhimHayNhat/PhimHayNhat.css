@@ -1,0 +1,23 @@
+/* PhimHayNhat.css */
+
+.phim-hay-nhat-page {
+}
+
+.phim-hay-nhat-page .text-center {
+}
+
+.phim-hay-nhat-page .spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.phim-hay-nhat-page .movie-grid-item {
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .phim-hay-nhat-page {
+  }
+}

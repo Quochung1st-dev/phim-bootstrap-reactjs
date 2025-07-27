@@ -1,0 +1,23 @@
+/* PhimLuuTru.css */
+
+.phim-luu-tru-page {
+}
+
+.phim-luu-tru-page .text-center {
+}
+
+.phim-luu-tru-page .spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.phim-luu-tru-page .movie-grid-item {
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .phim-luu-tru-page {
+  }
+}

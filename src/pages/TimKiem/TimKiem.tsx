@@ -7,6 +7,7 @@ import MovieCard from '../../components/MovieCard/MovieCard';
 import './TimKiem.css';
 import CustomBreadcrumb from '../../components/CustomBreadcrumb';
 import routePath from '../../routes/routePath';
+import CustomPagination from '../../components/CustomPagination/CustomPagination';
 
 const TimKiem: React.FC = () => {
   // States
@@ -210,37 +211,17 @@ const TimKiem: React.FC = () => {
               {/* Grid 4 cột 5 hàng đơn giản */}
               <Row xs={2} sm={3} md={3} lg={4} className="g-3">
                 {movies.map((movie: Phim) => (
-                  <div key={movie.id} className="movie-grid-item">
-                    <MovieCard movie={movie} />
-                  </div>
+                    <MovieCard key={movie.id} movie={movie} />
                 ))}
                 </Row>
               
-              {/* Phân trang đơn giản */}
+              {/* Phân trang */}
               {totalPages > 1 && (
-                <div className="d-flex justify-content-center mt-4">
-                  <Pagination>
-                    <Pagination.First 
-                      onClick={() => handlePageChange(1)} 
-                      disabled={currentPage === 1}
-                    />
-                    <Pagination.Prev
-                      disabled={currentPage === 1}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                    />
-                    
-                    {getPaginationItems()}
-                    
-                    <Pagination.Next
-                      disabled={currentPage === totalPages}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                    />
-                    <Pagination.Last 
-                      onClick={() => handlePageChange(totalPages)} 
-                      disabled={currentPage === totalPages}
-                    />
-                  </Pagination>
-                </div>
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
               )}
             </>
           ) : searchQuery ? (

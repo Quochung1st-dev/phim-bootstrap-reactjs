@@ -29,9 +29,16 @@ export const API_ENDPOINTS = {
     PHIMMOICAPNHAT: {
         LIST: '/phim-moi-cap-nhat',
     },
+    PHIMHAYNHAT: {
+        LIST: '/phim-hay-nhat',
+    },
+    PHIMXEMNHIEUNHAT: {
+        LIST: '/phim-xem-nhieu-nhat',
+    },
     PHIM: {
         DETAIL: (slug: string) => `/${slug}`,
         PHIMLIENQUAN: (slug: string) => `/phim-lien-quan/${slug}`,
+        ACTIONLIKE: (slug: string) => `/phim-action-like/${slug}`,
     },
     PHIMTIMKIEM: {
         LIST: '/tim-kiem',

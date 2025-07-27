@@ -7,6 +7,9 @@ import TimKiem from '../pages/TimKiem/TimKiem';
 import TheLoai from '../pages/TheLoai/TheLoai';
 import TheLoaiDetail from '../pages/TheLoai/TheLoaiDetail';
 import PhimMoi from '../pages/PhimMoi/PhimMoi';
+import PhimXemNhieu from '../pages/PhimXemNhieu/PhimXemNhieu';
+import PhimHayNhat from '../pages/PhimHayNhat/PhimHayNhat';
+import PhimLuuTru from '../pages/PhimLuuTru/PhimLuuTru';
 
 
 const routes: RouteObject[] = [
@@ -33,6 +36,18 @@ const routes: RouteObject[] = [
       {
         path: routePath.PHIM_MOI,
         element: <PhimMoi />
+      },
+      {
+        path: routePath.PHIM_XEM_NHIEU,
+        element: <PhimXemNhieu />
+      },
+      {
+        path: routePath.PHIM_HAY_NHAT,
+        element: <PhimHayNhat />
+      },
+      {
+        path: routePath.PHIM_LUU_TRU,
+        element: <PhimLuuTru />
       },
       {
         path: routePath.MOVIE_DETAIL(':slug'),

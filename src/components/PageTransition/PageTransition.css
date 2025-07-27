@@ -1,0 +1,48 @@
+.page-transition {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Thêm các hiệu ứng tùy chỉnh nếu cần */
+.page-transition-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Tùy chỉnh hiệu ứng bằng class */
+.page-transition.slide-fast {
+  transition: transform 0.3s ease;
+}
+
+.page-transition.fade-slow {
+  transition: opacity 1s ease;
+}
+
+/* Tương thích với dark/light mode */
+@media (prefers-color-scheme: dark) {
+  .page-transition-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .page-transition-overlay {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Animation cho loading screen */
+.page-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}

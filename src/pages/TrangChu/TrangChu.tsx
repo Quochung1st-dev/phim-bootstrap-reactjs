@@ -55,10 +55,7 @@ export const TrangChu: React.FC = () => {
             <Container className="px-3">
                 <div className="trang-chu-section-1">
                 <div className="mt-4 mb-5">
-                    <div className="section-header">
-                        <h2 className="section-title mb-4">Phim Mới Cập Nhật</h2>
-                    </div>
-                    
+                
                     {loading ? (
                         <div className="text-center py-5">
                             <div className="spinner-border text-danger" role="status">
