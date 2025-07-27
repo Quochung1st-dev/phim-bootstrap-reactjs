@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Breadcrumb, Badge, Button } from 'react-bootstrap';
+import { Container, Row, Col, Badge, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { theLoaiService } from '../../services/api/the_loai.service';
 import type { TheLoai as TheLoaiType } from '../../types/the_loai.types';

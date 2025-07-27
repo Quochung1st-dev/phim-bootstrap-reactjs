@@ -6,6 +6,7 @@ import type { Phim } from '../../types/phim.types';
 import './PhimChiTiet.css';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import CustomBreadcrumb from '../../components/CustomBreadcrumb';
+import LoadMoreButton from '../../components/LoadMoreButton';
 import { toast } from 'react-toastify';
 
 const PhimChiTiet: React.FC = () => {
@@ -51,7 +52,6 @@ const PhimChiTiet: React.FC = () => {
       // Get new source based on selected server
       const newSource = serverNumber === 1 ? movie?.link_online : movie?.link_phim_local;
       if (newSource) {
-        console.log('Setting video source:', newSource);
         // Update source element
         const sourceElement = video.querySelector('source');
         if (sourceElement) {
@@ -68,7 +68,7 @@ const PhimChiTiet: React.FC = () => {
     if (video) {
       // Handle video load events
       const handleLoadedData = () => {
-        console.log('Video loaded successfully');
+        // Video loaded successfully
       };
       
       const handleError = (e: Event) => {
@@ -91,7 +91,6 @@ const PhimChiTiet: React.FC = () => {
     if (video && movie) {
       const source = getVideoSource();
       if (source) {
-        console.log('Setting video source:', source);
         video.src = source;
         video.load();
       }
@@ -267,7 +266,7 @@ const PhimChiTiet: React.FC = () => {
     <div className="phim-chi-tiet-page">
       <Container className="movie-detail-container">
         {/* Video Player Section - Full Width */}
-        <Row className="mb-4">
+        <Row>
           <Col xs={12}>
             <div className="movie-player-container">
               <div className="movie-player">
@@ -294,8 +293,86 @@ const PhimChiTiet: React.FC = () => {
 
         {/* Movie Info Section - 8/4 Layout */}
         <Row>
-          {/* Left column - Movie Info (8 units) */}
-          <Col lg={8} md={8} sm={12}>
+          {/* Right column - Action Buttons (4 units) - Will show first on mobile */}
+          <Col lg={{ span: 4, order: 2 }} md={{ span: 4, order: 2 }} sm={{ span: 12, order: 1 }} xs={{ span: 12, order: 1 }}>
+            <div className="movie-actions-sidebar">
+              {/* Movie Poster - Hidden on mobile (<678px) */}
+              <div className="movie-poster-container mb-4 d-none d-md-block">
+                <img 
+                  src={movie.hinh_anh || 'https://via.placeholder.com/300x450?text=No+Image'} 
+                  alt={movie.ten}
+                  className="movie-poster-small"
+                />
+              </div>
+
+              <div className="action-buttons">
+                {/* Row 1: Server Selection - 2 buttons side by side */}
+                <div className="server-selection mb-3">
+                  <Row className="g-2">
+                    <Col xs={6}>
+                      <Button 
+                        variant={selectedServer === 1 ? "primary" : "outline-primary"}
+                        onClick={() => handleServerChange(1)}
+                        className="w-100 server-btn"
+                        size="sm"
+                        disabled={!movie.link_online}
+                      >
+                        <i className="bi bi-play-circle me-1"></i>
+                        Server 1
+                        {!movie.link_online && <small className="d-block">Không có</small>}
+                      </Button>
+                    </Col>
+                    <Col xs={6}>
+                      <Button 
+                        variant={selectedServer === 2 ? "primary" : "outline-primary"}
+                        onClick={() => handleServerChange(2)}
+                        className="w-100 server-btn"
+                        size="sm"
+                        disabled={!movie.link_phim_local}
+                      >
+                        <i className="bi bi-play-circle me-1"></i>
+                        Server 2
+                        {!movie.link_phim_local && <small className="d-block">Không có</small>}
+                      </Button>
+                    </Col>
+                  </Row>
+                </div>
+
+                {/* Row 2: All 4 action buttons on one row for mobile */}
+                <div className="action-buttons-row mb-3">
+                  <Row className="g-2">
+                    <Col xs={3} md={6}>
+                      <Button variant="outline-light" className="w-100 action-btn" size="sm" onClick={() => handleLuuTruPhim(movie)}>
+                        <i className="bi bi-bookmark-plus me-1"></i>
+                        <span className="btn-text">Lưu Trữ</span>
+                      </Button>
+                    </Col>
+                    <Col xs={3} md={6}>
+                      <Button variant="outline-danger" className="w-100 action-btn" size="sm" onClick={() => handleActionLike(movie.slug)}>
+                        <i className="bi bi-heart me-1"></i>
+                        <span className="btn-text">Like</span>
+                      </Button>
+                    </Col>
+                    <Col xs={3} md={6}>
+                      <Button variant="outline-light" className="w-100 action-btn" size="sm" onClick={() => handleActionNoiBat(movie.slug)}>
+                        <i className="bi bi-star me-1"></i>
+                        <span className="btn-text">Nổi bật</span>
+                      </Button>
+                    </Col>
+                    <Col xs={3} md={6}>
+                      <Button variant="outline-info" className="w-100 action-btn" size="sm">
+                        <i className="bi bi-share me-1"></i>
+                        <span className="btn-text">Chia Sẻ</span>
+                      </Button>
+                    </Col>
+                  </Row>
+                </div>
+              </div>
+            </div>
+          </Col>
+          
+          {/* Left column - Movie Info (8 units) - Will show second on mobile */}
+          <Col lg={{ span: 8, order: 1 }} md={{ span: 8, order: 1 }} sm={{ span: 12, order: 2 }} xs={{ span: 12, order: 2 }}>
             <div className="movie-info-content">
               
               <h1 className="movie-title">{movie.ten}</h1>
@@ -367,91 +444,6 @@ const PhimChiTiet: React.FC = () => {
               </div>
             </div>
           </Col>
-
-          {/* Right column - Action Buttons (4 units) */}
-          <Col lg={4} md={4} sm={12}>
-            <div className="movie-actions-sidebar">
-              {/* Movie Poster */}
-              <div className="movie-poster-container mb-4">
-                <img 
-                  src={movie.hinh_anh || 'https://via.placeholder.com/300x450?text=No+Image'} 
-                  alt={movie.ten}
-                  className="movie-poster-small"
-                />
-              </div>
-
-              <div className="action-buttons">
-                {/* Row 1: Server Selection - 2 buttons side by side */}
-                <div className="server-selection mb-3">
-                  <Row className="g-2">
-                    <Col xs={6}>
-                      <Button 
-                        variant={selectedServer === 1 ? "primary" : "outline-primary"}
-                        onClick={() => handleServerChange(1)}
-                        className="w-100 server-btn"
-                        size="sm"
-                        disabled={!movie.link_online}
-                      >
-                        <i className="bi bi-play-circle me-1"></i>
-                        Server 1
-                        {!movie.link_online && <small className="d-block">Không có</small>}
-                      </Button>
-                    </Col>
-                    <Col xs={6}>
-                      <Button 
-                        variant={selectedServer === 2 ? "primary" : "outline-primary"}
-                        onClick={() => handleServerChange(2)}
-                        className="w-100 server-btn"
-                        size="sm"
-                        disabled={!movie.link_phim_local}
-                      >
-                        <i className="bi bi-play-circle me-1"></i>
-                        Server 2
-                        {!movie.link_phim_local && <small className="d-block">Không có</small>}
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-
-                {/* Row 2: Save and Like - 2 buttons side by side */}
-                <div className="action-row-2 mb-3">
-                  <Row className="g-2">
-                    <Col xs={6}>
-                      <Button variant="outline-light" className="w-100 action-btn" size="sm" onClick={() => handleLuuTruPhim(movie)}>
-                        <i className="bi bi-bookmark-plus me-1"></i>
-                        Lưu Trữ
-                      </Button>
-                    </Col>
-                    <Col xs={6}>
-                      <Button variant="outline-danger" className="w-100 action-btn" size="sm" onClick={() => handleActionLike(movie.slug)}>
-                        <i className="bi bi-heart me-1"></i>
-                        Like
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-
-                {/* Row 3: Share - full width button */}
-                <div className="action-row-2 mb-3">
-                  <Row className="g-2">
-                    <Col xs={6}>
-                      <Button variant="outline-light" className="w-100 action-btn" size="sm" onClick={() => handleActionNoiBat(movie.slug)}>
-                        <i className="bi bi-star me-1"></i>
-                        Nổi bật
-                      </Button>
-                    </Col>
-                    <Col xs={6}>
-                      <Button variant="outline-info" className="w-100 action-btn" size="sm">
-                        <i className="bi bi-share me-2"></i>
-                        Chia Sẻ
-                      </Button>
-                    </Col>
-                  </Row>
-                  
-                </div>
-              </div>
-            </div>
-          </Col>
         </Row>
         <div className="related-movies-section mt-5">
           <div className="section-header mb-4">
@@ -468,33 +460,16 @@ const PhimChiTiet: React.FC = () => {
           </Row>
           
           {relatedMovies.length > 0 && (
-            <div className="text-center mt-4 load-more-container">
-              {hasMoreRelatedMovies ? (
-                <Button 
-                  variant="outline-danger" 
-                  size="lg" 
-                  onClick={handleLoadMoreRelatedMovies}
-                  disabled={isLoadingMore}
-                  className="load-more-btn"
-                >
-                  {isLoadingMore ? (
-                    <>
-                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                      Đang tải...
-                    </>
-                  ) : (
-                    <>
-                      <i className="bi bi-plus-circle me-2"></i>
-                      Xem Thêm
-                    </>
-                  )}
-                </Button>
-              ) : (
-                <div className="no-more-movies">
-                  <i className="bi bi-check-circle text-success me-2"></i>
-                  <span className="text-muted">Đã hiển thị tất cả phim liên quan</span>
-                </div>
-              )}
+            <div className="mt-4">
+              <LoadMoreButton 
+                onClick={handleLoadMoreRelatedMovies}
+                isLoading={isLoadingMore}
+                hasMore={hasMoreRelatedMovies}
+                loadingText="Đang tải..."
+                buttonText="Xem Thêm"
+                variant="outline-danger"
+                noMoreText="Đã hiển thị tất cả phim liên quan"
+              />
             </div>
           )}
           
@@ -524,7 +499,7 @@ const PhimChiTiet: React.FC = () => {
             src={zoomedImage} 
             alt="Zoomed image" 
             className="zoomed-image"
-            onClick={(e) => e.stopPropagation()}
+            onClick={closeZoom}
           />
         </div>
       </div>

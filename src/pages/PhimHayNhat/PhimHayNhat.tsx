@@ -3,7 +3,6 @@ import { Container, Button, Row } from 'react-bootstrap';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import routePath, { createPhimHayNhatUrl } from '../../routes/routePath';
 import CustomBreadcrumb from '../../components/CustomBreadcrumb';
-import type { BreadcrumbItem } from '../../components/CustomBreadcrumb';
 import CustomPagination from '../../components/CustomPagination';
 import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
@@ -19,7 +18,6 @@ const PhimHayNhat: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page')) || 1);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [totalResults, setTotalResults] = useState<number>(0);
   const itemsPerPage = 20; // Hiển thị 20 phim mỗi trang
   
   // Fetch phim hay nhất
@@ -41,7 +39,6 @@ const PhimHayNhat: React.FC = () => {
           
           // Lấy thông tin phân trang từ API
           setTotalPages(response.data.pagination.last_page);
-          setTotalResults(response.data.pagination.total);
           
           // Cập nhật URL params
           setSearchParams({ 

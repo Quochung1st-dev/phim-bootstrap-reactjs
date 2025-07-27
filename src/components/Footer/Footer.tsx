@@ -3,7 +3,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import './Footer.css';
 
 const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
   
   return (
     <footer className="site-footer bg-dark text-light py-4">

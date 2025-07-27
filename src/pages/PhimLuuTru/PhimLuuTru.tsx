@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Button, Row, Spinner } from 'react-bootstrap';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import routePath, { createPhimLuuTruUrl } from '../../routes/routePath';
+import { Container, Button, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import routePath from '../../routes/routePath';
 import CustomBreadcrumb from '../../components/CustomBreadcrumb';
-import type { BreadcrumbItem } from '../../components/CustomBreadcrumb';
 import MovieCard from '../../components/MovieCard/MovieCard';
+import LoadMoreButton from '../../components/LoadMoreButton/LoadMoreButton';
 import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
 import './PhimLuuTru.css';
 
 const PhimLuuTru: React.FC = () => {
   // States
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [movies, setMovies] = useState<Phim[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page')) || 1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalResults, setTotalResults] = useState<number>(0);
   const itemsPerPage = 20; // Number of movies to load per page
   const [hasMore, setHasMore] = useState<boolean>(true); // To control "Load More" button visibility
@@ -46,13 +45,8 @@ const PhimLuuTru: React.FC = () => {
         if (response.data && response.data.items) {
           // Append new movies if loading more, otherwise replace
           setMovies(prevMovies => currentPage === 1 ? (response.data?.items || []) : [...prevMovies, ...(response.data?.items || [])]);
-          setTotalResults(response.data.pagination?.total || 0); // Added null check
-          setHasMore((response.data.pagination?.current_page || 0) < (response.data.pagination?.last_page || 0)); // Added null check
-          
-          // Update URL params
-          // setSearchParams({ 
-          //   page: currentPage.toString() 
-          // });
+          setTotalResults(response.data.pagination?.total || 0);
+          setHasMore((response.data.pagination?.current_page || 0) < (response.data.pagination?.last_page || 0));
           
           // Update document title
           document.title = 'Phim Đã Lưu Trữ | Phim Hay';
@@ -127,30 +121,15 @@ const PhimLuuTru: React.FC = () => {
               {/* Nút tải thêm */}
               {hasMore && (
                 <div className="text-center my-4">
-                  <Button 
-                    variant="danger" 
+                  <LoadMoreButton 
                     onClick={handleLoadMore}
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <Spinner
-                          as="span"
-                          animation="border"
-                          size="sm"
-                          role="status"
-                          aria-hidden="true"
-                          className="me-2"
-                        />
-                        Đang tải...
-                      </>
-                    ) : (
-                      <>
-                        <i className="bi bi-arrow-clockwise me-2"></i>
-                        Tải thêm phim
-                      </>
-                    )}
-                  </Button>
+                    isLoading={loading}
+                    hasMore={hasMore}
+                    loadingText="Đang tải..."
+                    buttonText="Tải thêm"
+                    variant="danger"
+                    icon="bi-arrow-clockwise"
+                  />
                 </div>
               )}
             </>

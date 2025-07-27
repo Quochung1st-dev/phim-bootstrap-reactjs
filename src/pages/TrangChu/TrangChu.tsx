@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Pagination, Container, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import './TrangChu.css';
 import { phimService } from "../../services/api/phim.service";
 import { theLoaiService } from "../../services/api/the_loai.service";
@@ -17,7 +17,6 @@ export const TrangChu: React.FC = () => {
     const [categoriesLoading, setCategoriesLoading] = useState<boolean>(true);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalPages, setTotalPages] = useState<number>(1);
-    const [perPage, setPerPage] = useState<number>(20);
     
     const handleMovieClick = (movie: Phim) => {
         navigate(`/${movie.slug}`);
@@ -30,7 +29,7 @@ export const TrangChu: React.FC = () => {
             try {
                 const response = await phimService.getPhimNoiBat({
                     page: currentPage,
-                    per_page: perPage
+                    per_page: 20
                 });
                 
                 if (response.data) {
@@ -45,7 +44,7 @@ export const TrangChu: React.FC = () => {
         };
         
         fetchMovies();
-    }, [currentPage, perPage]);
+    }, [currentPage]);
     
     // Fetch random categories
     useEffect(() => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import routePath from '../../routes/routePath';
-import { Container, Navbar, Nav, NavDropdown, Form, Button, Spinner, InputGroup } from 'react-bootstrap';
+import { Container, Navbar, Nav, Form, Spinner } from 'react-bootstrap';
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import './Header.css';
 import { phimService } from '../../services/api/phim.service';

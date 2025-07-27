@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Breadcrumb, Pagination, Button, Row } from 'react-bootstrap';
-import { Link, useParams, useSearchParams, useNavigate } from 'react-router-dom';
+import { Container, Button, Row } from 'react-bootstrap';
+import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { theLoaiService } from '../../services/api/the_loai.service';
 import type { Phim } from '../../types/phim.types';
-import type { TheLoai as TheLoaiType } from '../../types/the_loai.types';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import './TheLoaiDetail.css';
 import CustomBreadcrumb from '../../components/CustomBreadcrumb';
@@ -21,7 +20,6 @@ const TheLoaiDetail: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page')) || 1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalResults, setTotalResults] = useState<number>(0);
-  const [theLoaiInfo, setTheLoaiInfo] = useState<TheLoaiType | null>(null);
   const [tenTheLoai, setTenTheLoai] = useState<string>('');
 
   // Fetch phim theo thể loại
@@ -48,8 +46,6 @@ const TheLoaiDetail: React.FC = () => {
         if (response.data.items.length > 0 && response.data.items[0].the_loai) {
           const currentTheLoai = response.data.items[0].the_loai.find(tl => tl.slug === slug);
           if (currentTheLoai) {
-            setTheLoaiInfo(currentTheLoai);
-            
             // Cập nhật tiêu đề trang
             document.title = `${currentTheLoai.ten} | Phim Hay`;
           }
@@ -96,61 +92,7 @@ const TheLoaiDetail: React.FC = () => {
 
   // Không cần phân trang ở client nữa vì API đã trả về dữ liệu đã được phân trang
 
-  // Generate pagination items
-  const getPaginationItems = () => {
-    const items = [];
-    
-    // Show first page
-    items.push(
-      <Pagination.Item
-        key={1}
-        active={currentPage === 1}
-        onClick={() => handlePageChange(1)}
-      >
-        1
-      </Pagination.Item>
-    );
 
-    // Show dots if there are many pages and we're not at the beginning
-    if (currentPage > 3) {
-      items.push(<Pagination.Ellipsis key="ellipsis-start" />);
-    }
-
-    // Show pages around current page
-    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
-      if (i > 1 && i < totalPages) {
-        items.push(
-          <Pagination.Item
-            key={i}
-            active={currentPage === i}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </Pagination.Item>
-        );
-      }
-    }
-
-    // Show dots if there are many pages and we're not at the end
-    if (currentPage < totalPages - 2) {
-      items.push(<Pagination.Ellipsis key="ellipsis-end" />);
-    }
-
-    // Show last page if we have more than 1 page
-    if (totalPages > 1) {
-      items.push(
-        <Pagination.Item
-          key={totalPages}
-          active={currentPage === totalPages}
-          onClick={() => handlePageChange(totalPages)}
-        >
-          {totalPages}
-        </Pagination.Item>
-      );
-    }
-
-    return items;
-  };
 
   return (
     <>

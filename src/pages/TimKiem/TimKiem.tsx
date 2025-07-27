@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Button, Pagination, Row } from 'react-bootstrap';
+import { Container, Button, Row } from 'react-bootstrap';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { phimService } from '../../services/api/phim.service';
 import type { Phim } from '../../types/phim.types';
@@ -66,17 +66,7 @@ const TimKiem: React.FC = () => {
     }
   };
 
-  // Form submit handler
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setCurrentPage(1); // Reset to first page
-    handleSearch(1);
-    
-    // Điều hướng URL với tham số query thay vì thay đổi qua setSearchParams
-    if (searchQuery.trim()) {
-      navigate(`/tim-kiem?query=${encodeURIComponent(searchQuery.trim())}&page=1`);
-    }
-  };
+
 
   // Page change handler
   const handlePageChange = (page: number) => {
@@ -111,61 +101,6 @@ const TimKiem: React.FC = () => {
     }
   }, [searchParams]);
 
-  // Generate pagination items
-  const getPaginationItems = () => {
-    const items = [];
-    
-    // Show first page
-    items.push(
-      <Pagination.Item
-        key={1}
-        active={currentPage === 1}
-        onClick={() => handlePageChange(1)}
-      >
-        1
-      </Pagination.Item>
-    );
-
-    // Show dots if there are many pages and we're not at the beginning
-    if (currentPage > 3) {
-      items.push(<Pagination.Ellipsis key="ellipsis-start" />);
-    }
-
-    // Show pages around current page
-    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
-      if (i > 1 && i < totalPages) {
-        items.push(
-          <Pagination.Item
-            key={i}
-            active={currentPage === i}
-            onClick={() => handlePageChange(i)}
-          >
-            {i}
-          </Pagination.Item>
-        );
-      }
-    }
-
-    // Show dots if there are many pages and we're not at the end
-    if (currentPage < totalPages - 2) {
-      items.push(<Pagination.Ellipsis key="ellipsis-end" />);
-    }
-
-    // Show last page if we have more than 1 page
-    if (totalPages > 1) {
-      items.push(
-        <Pagination.Item
-          key={totalPages}
-          active={currentPage === totalPages}
-          onClick={() => handlePageChange(totalPages)}
-        >
-          {totalPages}
-        </Pagination.Item>
-      );
-    }
-
-    return items;
-  };
 
   return (
     <>

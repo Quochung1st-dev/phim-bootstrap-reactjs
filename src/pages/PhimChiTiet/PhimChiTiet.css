@@ -1,3 +1,6 @@
+/* PhimChiTiet.css - Merged styles for movie detail page */
+
+/* Base Styles */
 .phim-chi-tiet-page {
   position: relative;
   color: white;
@@ -28,8 +31,6 @@
     rgba(18, 18, 18, 1) 100%);
 }
 
-
-
 /* Video Player Section */
 .phim-chi-tiet-page .movie-player-container {
   background-color: rgba(26, 26, 26, 0.9);
@@ -38,10 +39,11 @@
 }
 
 .phim-chi-tiet-page .movie-title {
-  font-size: 15px;
+  font-size: 25px;
   font-weight: 700;
   color: white;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
 }
 
 .phim-chi-tiet-page .movie-player {
@@ -111,14 +113,6 @@
   margin-bottom: 30px;
 }
 
-.phim-chi-tiet-page .movie-title {
-  font-size: 25px;
-  font-weight: 700;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  margin-bottom: 20px;
-}
-
 /* Simple Categories Section */
 .phim-chi-tiet-page .movie-categories-section {
   margin-bottom: 20px;
@@ -134,7 +128,6 @@
 .phim-chi-tiet-page .movie-categories {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
 }
 
 /* Simple Meta Info Section */
@@ -171,7 +164,7 @@
   color: #f8f9fa;
 }
 
-/* Thumbnail Gallery - Keep this as is */
+/* Thumbnail Gallery */
 .phim-chi-tiet-page .description-thumbnails {
   margin-bottom: 20px;
 }
@@ -230,7 +223,7 @@
 }
 
 /* Image Zoom Modal */
-.phim-chi-tiet-page .image-zoom-modal {
+.image-zoom-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -244,7 +237,7 @@
   cursor: pointer;
 }
 
-.phim-chi-tiet-page .zoom-overlay {
+.zoom-overlay {
   position: relative;
   width: calc(100vw - 200px);
   height: calc(100vh - 200px);
@@ -255,7 +248,7 @@
   justify-content: center;
 }
 
-.phim-chi-tiet-page .zoom-close {
+.zoom-close {
   position: absolute;
   top: -40px;
   right: -40px;
@@ -274,13 +267,13 @@
   z-index: 10000;
 }
 
-.phim-chi-tiet-page .zoom-close:hover {
+.zoom-close:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.5);
   transform: scale(1.1);
 }
 
-.phim-chi-tiet-page .zoomed-image {
+.zoomed-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -289,40 +282,6 @@
   cursor: default;
 }
 
-/* Responsive zoom modal */
-@media (max-width: 768px) {
-  .phim-chi-tiet-page .zoom-close {
-    top: -30px;
-    right: -30px;
-    width: 35px;
-    height: 35px;
-    font-size: 1.1rem;
-  }
-  
-  .phim-chi-tiet-page .zoom-overlay {
-    width: calc(100vw - 100px);
-    height: calc(100vh - 100px);
-    max-width: calc(100vw - 100px);
-    max-height: calc(100vh - 100px);
-  }
-}
-
-@media (max-width: 480px) {
-  .phim-chi-tiet-page .zoom-overlay {
-    width: calc(100vw - 60px);
-    height: calc(100vh - 60px);
-    max-width: calc(100vw - 60px);
-    max-height: calc(100vh - 60px);
-  }
-  
-  .phim-chi-tiet-page .zoom-close {
-    top: -25px;
-    right: -25px;
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
-  }
-}
 
 /* Action Buttons Sidebar */
 .phim-chi-tiet-page .movie-actions-sidebar {
@@ -331,7 +290,6 @@
   padding: 25px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   height: fit-content;
-  margin-bottom: 30px;
 }
 
 .phim-chi-tiet-page .movie-poster-small {
@@ -339,7 +297,6 @@
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
-
 
 .phim-chi-tiet-page .movie-rating {
   position: absolute;
@@ -363,672 +320,112 @@
 .phim-chi-tiet-page .action-buttons .btn {
   font-weight: 600;
   border-radius: 6px;
-  transition: all 0.3s ease;
 }
 
-.phim-chi-tiet-page .action-buttons .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
-}
-
-.phim-chi-tiet-page .movie-categories .badge {
-  font-size: 0.85rem;
-  padding: 6px 12px;
-  margin-right: 8px;
-  border-radius: 4px;
-}
-
-.phim-chi-tiet-page .movie-description {
-  margin: 25px 0;
-}
-
-.phim-chi-tiet-page .movie-description h3 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
+/* Specific styles for the action buttons */
+.phim-chi-tiet-page .action-buttons-row .action-btn {
+  transition: all 0.2s ease;
   font-weight: 600;
-}
-
-.phim-chi-tiet-page .movie-description p {
-  line-height: 1.7;
-  color: #e0e0e0;
-}
-
-.phim-chi-tiet-page .movie-actions .btn {
-  padding: 10px 24px;
-  border-radius: 5px;
-  font-weight: 500;
-}
-
-/* Movie player */
-
-.phim-chi-tiet-page .movie-iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.phim-chi-tiet-page .no-video-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  border-radius: 6px !important;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background-color: #1a1a1a;
-  color: #7a7a7a;
-}
-
-.phim-chi-tiet-page .no-video-placeholder i {
-  font-size: 3rem;
-  margin-bottom: 10px;
-}
-
-/* Sidebar */
-.phim-chi-tiet-page .movie-sidebar {
-  background-color: rgba(26, 26, 26, 0.8);
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-}
-
-
-.phim-chi-tiet-page .movie-poster {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 8px;
-}
-
-.phim-chi-tiet-page .movie-rating {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: rgba(220, 53, 69, 0.9);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  font-weight: 700;
-  font-size: 1.1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  border-width: 2px;
+  line-height: 1.1;
 }
 
-.phim-chi-tiet-page .movie-rating i {
-  font-size: 0.9rem;
+.phim-chi-tiet-page .action-buttons-row .action-btn i {
   margin-bottom: 2px;
 }
 
-.phim-chi-tiet-page .movie-info-box {
-  background-color: rgba(40, 40, 40, 0.6);
-  border-radius: 8px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.phim-chi-tiet-page .movie-info-box h3 {
-  font-size: 1.3rem;
-  margin-bottom: 15px;
-  font-weight: 600;
-}
-
-.phim-chi-tiet-page .info-item {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-}
-
-.phim-chi-tiet-page .info-label {
-  font-weight: 600;
-  min-width: 100px;
-  color: #aaa;
-}
-
-.phim-chi-tiet-page .info-value {
-  flex: 1;
-}
-
-.phim-chi-tiet-page .related-movies {
-  background-color: rgba(40, 40, 40, 0.6);
-  border-radius: 8px;
-  padding: 20px;
-}
-
-/* Related Movies Section */
-.phim-chi-tiet-page .related-movies-section {
-  position: relative;
-  z-index: 1;
-}
-
-.phim-chi-tiet-page .section-header {
-  position: relative;
-  margin-bottom: 30px;
-}
-
-.phim-chi-tiet-page .related-movies-section .section-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: white;
-  position: relative;
-  display: inline-block;
-  margin-bottom: 5px;
-}
-
-.phim-chi-tiet-page .section-divider {
-  height: 3px;
-  background: linear-gradient(to right, #dc3545 0%, rgba(220, 53, 69, 0.3) 100%);
-  width: 100px;
-  margin-top: 10px;
-  border-radius: 3px;
-  position: relative;
-  transition: width 0.3s ease-in-out;
-}
-
-.phim-chi-tiet-page .section-header:hover .section-divider {
-  width: 200px;
-  background: linear-gradient(to right, #dc3545 0%, rgba(220, 53, 69, 0.5) 60%, rgba(220, 53, 69, 0.2) 100%);
-}
-
-.phim-chi-tiet-page .load-more-container {
-  margin: 30px 0;
-  padding: 10px;
-}
-
-.phim-chi-tiet-page .load-more-container .btn {
-  padding: 12px 35px;
-  transition: all 0.3s ease;
-  border-width: 2px;
-  position: relative;
-  overflow: hidden;
-}
-
-.phim-chi-tiet-page .load-more-container .btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: left 0.7s ease;
-}
-
-.phim-chi-tiet-page .load-more-container .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
-}
-
-.phim-chi-tiet-page .load-more-container .btn:hover::before {
-  left: 100%;
-}
-
-.phim-chi-tiet-page .load-more-container .btn:active {
-  transform: translateY(-1px);
-}
-
-.phim-chi-tiet-page .load-more-btn {
-  min-width: 220px;
-  position: relative;
-  z-index: 1;
-}
-
-.phim-chi-tiet-page .no-more-movies {
-  padding: 15px;
-  border-radius: 5px;
-  background-color: rgba(40, 40, 40, 0.5);
-  display: inline-block;
-  transition: all 0.3s ease;
-}
-
-.phim-chi-tiet-page .no-more-movies i {
-  font-size: 1.2rem;
-}
-
-.phim-chi-tiet-page .no-more-movies:hover {
-  background-color: rgba(40, 40, 40, 0.7);
-}
-
-/* Empty state styling */
-.phim-chi-tiet-page .empty-movies-container {
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.phim-chi-tiet-page .empty-state {
-  background-color: rgba(40, 40, 40, 0.6);
-  padding: 30px;
-  border-radius: 8px;
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.phim-chi-tiet-page .empty-state i {
-  font-size: 3rem;
-  color: #aaa;
-  margin-bottom: 15px;
+.phim-chi-tiet-page .action-buttons-row .btn-text {
   display: block;
+  text-align: center;
 }
 
-.phim-chi-tiet-page .empty-state p {
-  font-size: 1.2rem;
-  margin-bottom: 0;
-  color: white;
-}
-
-.phim-chi-tiet-page .empty-state .btn {
-  margin-top: 20px;
-  padding: 8px 20px;
-  transition: all 0.3s ease;
-}
-
-.phim-chi-tiet-page .empty-state .btn:hover {
+.phim-chi-tiet-page .action-buttons-row .action-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Animation for newly loaded movies */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+/* Responsive styling */
+/* Mobile optimizations - Medium devices and below (< 768px) */
+@media (max-width: 767.98px) {
+  .phim-chi-tiet-page .movie-actions-sidebar {
+    margin-bottom: 20px;
+    padding: 15px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .phim-chi-tiet-page .movie-poster-container {
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
   }
-}
-
-.phim-chi-tiet-page .related-movies-section .movie-card-link {
-  animation: fadeInUp 0.5s ease forwards;
-}
-
-/* Staggered animation delay for each card */
-.phim-chi-tiet-page .related-movies-section .col:nth-child(1) .movie-card-link { animation-delay: 0.05s; }
-.phim-chi-tiet-page .related-movies-section .col:nth-child(2) .movie-card-link { animation-delay: 0.1s; }
-.phim-chi-tiet-page .related-movies-section .col:nth-child(3) .movie-card-link { animation-delay: 0.15s; }
-.phim-chi-tiet-page .related-movies-section .col:nth-child(4) .movie-card-link { animation-delay: 0.2s; }
-.phim-chi-tiet-page .related-movies-section .col:nth-child(5) .movie-card-link { animation-delay: 0.25s; }
-.phim-chi-tiet-page .related-movies-section .col:nth-child(6) .movie-card-link { animation-delay: 0.3s; }
-.phim-chi-tiet-page .related-movies-section .col:nth-child(7) .movie-card-link { animation-delay: 0.35s; }
-.phim-chi-tiet-page .related-movies-section .col:nth-child(8) .movie-card-link { animation-delay: 0.4s; }
-
-/* Responsive adjustments */
-@media (max-width: 991px) {
-  .phim-chi-tiet-page .movie-detail-container {
-    margin-top: 150px;
-  }
-
+  
   .phim-chi-tiet-page .movie-title {
-    font-size: 20px;
+    margin-top: 10px;
+    font-size: 22px;
   }
   
-  .phim-chi-tiet-page .movie-actions-sidebar {
-    margin-top: 30px;
-  }
-  
-
-  
-  .phim-chi-tiet-page .action-buttons .btn {
-    font-size: 0.9rem;
-    padding: 8px 16px;
-  }
-}
-
-@media (max-width: 767px) {
-  .phim-chi-tiet-page .movie-title {
-    font-size: 18px;
-  }
-  
-
-
-}
-
-@media (max-width: 767px) {
-  .phim-chi-tiet-page .hero-background {
-    height: 300px;
-  }
-}
-
-/* Server Selection Styles */
-.phim-chi-tiet-page .server-selection h6 {
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #f8f9fa;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 8px;
-  display: inline-block;
-  width: 100%;
-}
-
-.phim-chi-tiet-page .server-selection h6 i {
-  color: #007bff;
-}
-
-.phim-chi-tiet-page .server-btn {
-  transition: all 0.3s ease;
-  font-weight: 600;
-  border-radius: 8px !important;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-width: 2px;
-}
-
-.phim-chi-tiet-page .server-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
-}
-
-.phim-chi-tiet-page .server-btn.btn-primary {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  border: 2px solid #007bff;
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.4);
-}
-
-.phim-chi-tiet-page .server-btn.btn-outline-primary {
-  border: 2px solid #007bff;
-  color: #007bff;
-  background: transparent;
-}
-
-.phim-chi-tiet-page .server-btn.btn-outline-primary:hover {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  transform: translateY(-2px);
-  color: white;
-}
-
-.phim-chi-tiet-page .server-btn i {
-  font-size: 1.1em;
-}
-
-/* Action buttons styling */
-.phim-chi-tiet-page .action-btn {
-  transition: all 0.3s ease;
-  font-weight: 600;
-  border-radius: 8px !important;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-width: 2px;
-}
-
-.phim-chi-tiet-page .action-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2);
-}
-
-.phim-chi-tiet-page .action-btn.btn-outline-light {
-  border: 2px solid #f8f9fa;
-  color: #f8f9fa;
-  background: transparent;
-}
-
-.phim-chi-tiet-page .action-btn.btn-outline-light:hover {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  color: #212529;
-  border-color: #f8f9fa;
-}
-
-.phim-chi-tiet-page .action-btn.btn-outline-danger {
-  border: 2px solid #dc3545;
-  color: #dc3545;
-  background: transparent;
-}
-
-.phim-chi-tiet-page .action-btn.btn-outline-danger:hover {
-  background: linear-gradient(135deg, #dc3545, #c82333);
-  color: white;
-  border-color: #dc3545;
-}
-
-.phim-chi-tiet-page .action-btn.btn-outline-info {
-  border: 2px solid #0dcaf0;
-  color: #0dcaf0;
-  background: transparent;
-}
-
-.phim-chi-tiet-page .action-btn.btn-outline-info:hover {
-  background: linear-gradient(135deg, #0dcaf0, #0aa2c0);
-  color: white;
-  border-color: #0dcaf0;
-}
-
-/* Action rows spacing */
-.phim-chi-tiet-page .action-row-2,
-.phim-chi-tiet-page .action-row-3,
-.phim-chi-tiet-page .server-selection {
-  margin-bottom: 1rem;
-}
-
-/* Button icons styling */
-.phim-chi-tiet-page .action-btn i,
-.phim-chi-tiet-page .server-btn i {
-  font-size: 1.1em;
-  opacity: 0.9;
-}
-
-.phim-chi-tiet-page .action-btn:hover i,
-.phim-chi-tiet-page .server-btn:hover i {
-  opacity: 1;
-  transform: scale(1.1);
-  transition: all 0.2s ease;
-}
-
-
-
-.phim-chi-tiet-page .movie-poster-small {
-  width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.phim-chi-tiet-page .movie-poster-small:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.8);
-}
-
-.phim-chi-tiet-page .movie-rating {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: linear-gradient(135deg, #dc3545, #c82333);
-  color: white;
-  padding: 6px 10px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.4);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.phim-chi-tiet-page .movie-rating i {
-  color: #ffd700;
-  font-size: 0.9rem;
-}
-
-/* Grid gaps for better spacing */
-.phim-chi-tiet-page .g-2 {
-  --bs-gutter-x: 0.5rem;
-  --bs-gutter-y: 0.5rem;
-}
-
-/* Action rows styling */
-.phim-chi-tiet-page .action-row-2 .btn,
-.phim-chi-tiet-page .action-row-3 .btn {
-  font-weight: 500;
-  padding: 10px 8px;
-  transition: all 0.3s ease;
-}
-
-.phim-chi-tiet-page .action-row-2 .btn:hover,
-.phim-chi-tiet-page .action-row-3 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
-}
-
-.phim-chi-tiet-page .action-row-2 .btn-outline-light:hover {
-  background-color: #f8f9fa;
-  color: #212529;
-}
-
-.phim-chi-tiet-page .action-row-2 .btn-outline-danger:hover {
-  background-color: #dc3545;
-  color: white;
-}
-
-.phim-chi-tiet-page .action-row-3 .btn-outline-info:hover {
-  background-color: #0dcaf0;
-  color: white;
-}
-
-/* Responsive adjustments for action buttons */
-@media (max-width: 991px) {
-  .phim-chi-tiet-page .movie-actions-sidebar {
-    margin-top: 30px;
-  }
-  
-
-  
-  .phim-chi-tiet-page .server-btn,
-  .phim-chi-tiet-page .action-btn {
-    height: 38px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .phim-chi-tiet-page .server-selection h6 {
-    font-size: 0.95rem;
-    margin-bottom: 8px;
-  }
-  
-  .phim-chi-tiet-page .server-btn,
-  .phim-chi-tiet-page .action-btn {
-    font-size: 0.85rem;
-    height: 36px;
-    padding: 8px 6px;
-  }
-  
-
-  
-  .phim-chi-tiet-page .movie-rating {
-    font-size: 0.8rem;
-    padding: 4px 8px;
-  }
-  
-  .phim-chi-tiet-page .server-btn i,
-  .phim-chi-tiet-page .action-btn i {
-    font-size: 1rem;
-  }
-  
-  .phim-chi-tiet-page .action-row-2,
-  .phim-chi-tiet-page .action-row-3,
-  .phim-chi-tiet-page .server-selection {
-    margin-bottom: 0.8rem;
-  }
-}
-
-@media (max-width: 575px) {
-  .phim-chi-tiet-page .movie-poster-small {
-    max-width: 140px;
-  }
-  
-  .phim-chi-tiet-page .server-btn,
-  .phim-chi-tiet-page .action-btn {
-    font-size: 0.8rem;
-    height: 34px;
-  }
-  
-  .phim-chi-tiet-page .movie-actions-sidebar {
-    padding: 20px 15px;
-  }
-}
-
-/* Enhanced responsive for simple column 8 content */
-@media (max-width: 991px) {
   .phim-chi-tiet-page .movie-info-content {
     padding: 20px;
-    margin-bottom: 20px;
   }
   
-  .phim-chi-tiet-page .description-thumb {
-    height: 100px;
+  .zoom-close {
+    top: -30px;
+    right: -30px;
+    width: 35px;
+    height: 35px;
+    font-size: 1.1rem;
   }
   
-  .phim-chi-tiet-page .movie-poster-small {
-    max-width: 180px;
+  .zoom-overlay {
+    width: calc(100vw - 100px);
+    height: calc(100vh - 100px);
+    max-width: calc(100vw - 100px);
+    max-height: calc(100vh - 100px);
   }
 }
 
-@media (max-width: 767px) {
-  .phim-chi-tiet-page .movie-title {
-    font-size: 15px;
+/* Specific for devices under 678px */
+@media (max-width: 677.98px) {
+  .phim-chi-tiet-page .action-buttons-row .action-btn {
+    height: 38px;
+    padding: 4px 2px;
+    min-height: 38px;
+  }
+  
+  .phim-chi-tiet-page .action-buttons-row .action-btn i {
+    font-size: 1rem;
+    margin-bottom: 1px;
+  }
+  
+  .phim-chi-tiet-page .action-buttons-row .btn-text {
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    line-height: 1;
+  }
+  
+  .phim-chi-tiet-page .server-btn {
+    height: 38px;
   }
   
   .phim-chi-tiet-page .movie-info-content {
-    padding: 18px 15px;
-  }
-  
-  .phim-chi-tiet-page .categories-title,
-  .phim-chi-tiet-page .description-title {
-    font-size: 1rem;
-    margin-bottom: 10px;
-  }
-  
-  .phim-chi-tiet-page .movie-meta-info .info-label {
-    min-width: 90px;
-    font-size: 0.9rem;
-  }
-  
-  .phim-chi-tiet-page .movie-meta-info .info-value {
-    font-size: 0.9rem;
-  }
-  
-  .phim-chi-tiet-page .description-thumb {
-    height: 80px;
-  }
-  
-  .phim-chi-tiet-page .thumbnail-overlay i {
-    font-size: 1.2rem;
-  }
-  
-  .phim-chi-tiet-page .description-text p {
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
-  
-  .phim-chi-tiet-page .movie-poster-small {
-    max-width: 160px;
+    padding: 15px;
   }
 }
 
+/* Extra small devices */
 @media (max-width: 575px) {
   .phim-chi-tiet-page .movie-info-content {
-    padding: 15px 12px;
+    padding: 12px 10px;
+  }
+  .phim-chi-tiet-page .action-buttons-row .action-btn i {
+    display: none;
+    font-size: 15px;
   }
   
   .phim-chi-tiet-page .movie-title {
@@ -1044,23 +441,39 @@
     height: 70px;
   }
   
-  .phim-chi-tiet-page .movie-meta-info .info-label,
-  .phim-chi-tiet-page .movie-meta-info .info-value {
-    font-size: 0.85rem;
+  .phim-chi-tiet-page .action-buttons-row .action-btn {
+    height: 36px;
+    padding: 2px 0;
+    min-height: 36px;
   }
   
-  .phim-chi-tiet-page .description-text p {
-    font-size: 0.9rem;
+  .phim-chi-tiet-page .action-buttons-row .action-btn i {
+    font-size: 15px;
+    margin-right: 0 !important;
+    margin-bottom: 1px;
   }
   
-  .phim-chi-tiet-page .movie-poster-small {
-    max-width: 140px;
+  .phim-chi-tiet-page .action-buttons-row .btn-text {
+    font-size: 8px;
+    line-height: 1;
   }
-}
-
-/* Action sidebar responsive */
-@media (max-width: 575px) {
+  
   .phim-chi-tiet-page .movie-actions-sidebar {
-    padding: 20px 15px;
+    padding: 10px 8px;
+  }
+  
+  .zoom-overlay {
+    width: calc(100vw - 60px);
+    height: calc(100vh - 60px);
+    max-width: calc(100vw - 60px);
+    max-height: calc(100vh - 60px);
+  }
+  
+  .zoom-close {
+    top: -25px;
+    right: -25px;
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
   }
 }

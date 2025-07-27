@@ -2,8 +2,8 @@
 import { apiClient } from '../httpClient';
 import type { ApiResponse } from '../httpClient';
 import { API_ENDPOINTS } from '../httpEndpoint';
-import type { TheLoai, TheLoaiListResponse, TheLoaiQueryParams } from '../../types/the_loai.types';
-import type { Phim, PhimListResponse } from '../../types/phim.types';
+import type { TheLoaiListResponse, TheLoaiQueryParams } from '../../types/the_loai.types';
+import type { PhimListResponse } from '../../types/phim.types';
 
 
 class TheLoaiService {
