@@ -146,7 +146,9 @@ const TimKiem: React.FC = () => {
               {/* Grid 4 cột 5 hàng đơn giản */}
               <Row xs={2} sm={3} md={3} lg={4} className="g-3">
                 {movies.map((movie: Phim) => (
+                  <div className="movie-grid-item">
                     <MovieCard key={movie.id} movie={movie} />
+                  </div>
                 ))}
                 </Row>
               
