@@ -455,7 +455,7 @@ const PhimChiTiet: React.FC = () => {
                   ) : (
                     <>
                       <i className="bi bi-plus-circle me-2"></i>
-                      Xem Thêm Phim Liên Quan
+                      Xem Thêm
                     </>
                   )}
                 </Button>

@@ -45,7 +45,7 @@ const PhimLuuTru: React.FC = () => {
         
         if (response.data && response.data.items) {
           // Append new movies if loading more, otherwise replace
-          setMovies(prevMovies => currentPage === 1 ? response.data?.items : [...prevMovies, ...response.data?.items]);
+          setMovies(prevMovies => currentPage === 1 ? (response.data?.items || []) : [...prevMovies, ...(response.data?.items || [])]);
           setTotalResults(response.data.pagination?.total || 0); // Added null check
           setHasMore((response.data.pagination?.current_page || 0) < (response.data.pagination?.last_page || 0)); // Added null check
           
