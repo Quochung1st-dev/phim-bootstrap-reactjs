@@ -203,9 +203,165 @@ const Header: React.FC = () => {
             </div>
           </div>
           
-          <Navbar.Toggle aria-controls="main-navbar" />
+          <button 
+            className="navbar-toggler custom-navbar-toggle" 
+            type="button" 
+            onClick={() => {
+              document.body.classList.toggle('mobile-menu-open');
+              const menuModal = document.getElementById('mobile-menu-modal');
+              if (menuModal) {
+                menuModal.classList.toggle('show');
+              }
+            }}
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
           
-          <Navbar.Collapse id="main-navbar">
+          {/* Custom Mobile Menu Modal */}
+          <div 
+            id="mobile-menu-modal" 
+            className="mobile-menu-modal"
+            onClick={(e) => {
+              // Chỉ đóng menu khi click vào overlay (không phải vào menu container)
+              if (e.target === e.currentTarget) {
+                document.body.classList.remove('mobile-menu-open');
+                const menuModal = document.getElementById('mobile-menu-modal');
+                if (menuModal) {
+                  menuModal.classList.remove('show');
+                }
+              }
+            }}
+          >
+            <div className="mobile-menu-container"
+              onClick={(e) => e.stopPropagation()} // Ngăn sự kiện click từ container lan ra ngoài overlay
+            >
+              <div className="mobile-menu-header">
+                <div className="mobile-menu-brand">
+                  <Link to={routePath.TRANGCHU} onClick={() => {
+                    document.body.classList.remove('mobile-menu-open');
+                    const menuModal = document.getElementById('mobile-menu-modal');
+                    if (menuModal) {
+                      menuModal.classList.remove('show');
+                    }
+                  }}>
+                    <span className="text-danger fw-bold">PHIM</span>
+                    <span className="text-light">HAY</span>
+                  </Link>
+                </div>
+                <button 
+                  type="button" 
+                  className="mobile-menu-close" 
+                  onClick={() => {
+                    document.body.classList.remove('mobile-menu-open');
+                    const menuModal = document.getElementById('mobile-menu-modal');
+                    if (menuModal) {
+                      menuModal.classList.remove('show');
+                    }
+                  }}
+                >
+                  <i className="bi bi-x-lg"></i>
+                </button>
+              </div>
+              
+              <div className="mobile-menu-content">
+                <Nav className="menu-nav flex-column">
+                  <Nav.Link 
+                    as={Link} 
+                    to={routePath.TRANGCHU} 
+                    className="menu-item" 
+                    style={{"--index": 0} as React.CSSProperties}
+                    onClick={() => {
+                      document.body.classList.remove('mobile-menu-open');
+                      const menuModal = document.getElementById('mobile-menu-modal');
+                      if (menuModal) {
+                        menuModal.classList.remove('show');
+                      }
+                    }}
+                  >
+                    <i className="bi bi-house-door me-3"></i>Trang Chủ
+                  </Nav.Link>
+                  <Nav.Link 
+                    as={Link} 
+                    to={routePath.PHIM_MOI} 
+                    className="menu-item" 
+                    style={{"--index": 1} as React.CSSProperties}
+                    onClick={() => {
+                      document.body.classList.remove('mobile-menu-open');
+                      const menuModal = document.getElementById('mobile-menu-modal');
+                      if (menuModal) {
+                        menuModal.classList.remove('show');
+                      }
+                    }}
+                  >
+                    <i className="bi bi-film me-3"></i>Phim Mới
+                  </Nav.Link>
+                  <Nav.Link 
+                    as={Link} 
+                    to={routePath.PHIM_XEM_NHIEU} 
+                    className="menu-item" 
+                    style={{"--index": 2} as React.CSSProperties}
+                    onClick={() => {
+                      document.body.classList.remove('mobile-menu-open');
+                      const menuModal = document.getElementById('mobile-menu-modal');
+                      if (menuModal) {
+                        menuModal.classList.remove('show');
+                      }
+                    }}
+                  >
+                    <i className="bi bi-eye me-3"></i>Phim Xem Nhiều
+                  </Nav.Link>
+                  <Nav.Link 
+                    as={Link} 
+                    to={routePath.PHIM_HAY_NHAT} 
+                    className="menu-item" 
+                    style={{"--index": 3} as React.CSSProperties}
+                    onClick={() => {
+                      document.body.classList.remove('mobile-menu-open');
+                      const menuModal = document.getElementById('mobile-menu-modal');
+                      if (menuModal) {
+                        menuModal.classList.remove('show');
+                      }
+                    }}
+                  >
+                    <i className="bi bi-star me-3"></i>Phim Hay Nhất
+                  </Nav.Link>
+                  <Nav.Link 
+                    as={Link} 
+                    to={routePath.PHIM_LUU_TRU} 
+                    className="menu-item" 
+                    style={{"--index": 4} as React.CSSProperties}
+                    onClick={() => {
+                      document.body.classList.remove('mobile-menu-open');
+                      const menuModal = document.getElementById('mobile-menu-modal');
+                      if (menuModal) {
+                        menuModal.classList.remove('show');
+                      }
+                    }}
+                  >
+                    <i className="bi bi-archive me-3"></i>Phim Lưu Trữ
+                  </Nav.Link>
+                  <Nav.Link 
+                    as={Link} 
+                    to={routePath.THE_LOAI.LIST} 
+                    className="menu-item" 
+                    style={{"--index": 5} as React.CSSProperties}
+                    onClick={() => {
+                      document.body.classList.remove('mobile-menu-open');
+                      const menuModal = document.getElementById('mobile-menu-modal');
+                      if (menuModal) {
+                        menuModal.classList.remove('show');
+                      }
+                    }}
+                  >
+                    <i className="bi bi-grid me-3"></i>Thể loại
+                  </Nav.Link>
+                </Nav>
+              </div>
+            </div>
+          </div>
+          
+          <Navbar.Collapse id="main-navbar" className="d-none d-lg-block">
+            
             {/* Search box in the middle */}
             <Nav className="mx-auto d-flex align-items-center">
               <div className="search-container position-relative" ref={searchContainerRef}>
@@ -297,13 +453,13 @@ const Header: React.FC = () => {
             </Nav>
             
             {/* Menu on the right */}
-            <Nav className="ms-auto">
-              <Nav.Link as={Link} to={routePath.TRANGCHU}>Trang Chủ</Nav.Link>
-              <Nav.Link as={Link} to={routePath.PHIM_MOI}>Phim Mới</Nav.Link>
-              <Nav.Link as={Link} to={routePath.PHIM_XEM_NHIEU}>Phim Xem Nhiều</Nav.Link>
-              <Nav.Link as={Link} to={routePath.PHIM_HAY_NHAT}>Phim Hay Nhất</Nav.Link>
-              <Nav.Link as={Link} to={routePath.PHIM_LUU_TRU}>Phim Lưu Trữ</Nav.Link>
-              <Nav.Link as={Link} to={routePath.THE_LOAI.LIST}>Thể loại</Nav.Link>
+            <Nav className="ms-auto menu-nav">
+              <Nav.Link as={Link} to={routePath.TRANGCHU} className="menu-item">Trang Chủ</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_MOI} className="menu-item">Phim Mới</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_XEM_NHIEU} className="menu-item">Phim Xem Nhiều</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_HAY_NHAT} className="menu-item">Phim Hay Nhất</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_LUU_TRU} className="menu-item">Phim Lưu Trữ</Nav.Link>
+              <Nav.Link as={Link} to={routePath.THE_LOAI.LIST} className="menu-item">Thể loại</Nav.Link>
               
             </Nav>
           </Navbar.Collapse>

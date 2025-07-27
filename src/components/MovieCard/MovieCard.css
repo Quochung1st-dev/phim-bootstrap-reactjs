@@ -152,6 +152,16 @@
     color: inherit;
     outline: none;
 }
+@media screen and (max-width:678px) {
+    .movie-card-title {
+        font-size: 12px;
+    }
+    .movie-card-tags {
+        display: none;
+    }
+}
+
+
 
 @media screen and (max-width:576px) {
     .movie-card-title {

@@ -270,10 +270,137 @@
   width: 100%;
 }
 
-/* Responsive navbar tweaks */
+/* Mobile Menu Drawer */
+.custom-navbar-toggle {
+  z-index: 1600;
+  position: relative;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #212529;
+}
+
+.mobile-menu-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.mobile-menu-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 22px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.mobile-menu-collapse {
+  transition: transform 0.3s ease-in-out !important;
+}
+
 @media (max-width: 991.98px) {
+  .navbar-collapse {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    padding: 1rem;
+    background-color: #1a1a1a;
+    transform: translateX(100%);
+    z-index: 1550;
+    overflow-y: auto;
+    display: block !important;
+    visibility: visible;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  .navbar-collapse.show {
+    transform: translateX(0);
+  }
+  
+  /* Overlay for mobile menu */
+  .navbar-collapse::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+  
+  .navbar-collapse.show::before {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+
+  
+  .menu-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu-item:before {
+    content: '';
+    width: 0;
+    height: 2px;
+    background-color: #dc3545;
+    margin-right: 0;
+    transition: all 0.3s ease;
+    opacity: 0;
+  }
+  
+  .menu-item:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545 !important;
+    padding-left: 20px;
+  }
+  
+  .menu-item:hover:before {
+    width: 8px;
+    margin-right: 10px;
+    opacity: 1;
+  }
+  
+  .menu-item.active {
+    color: #dc3545 !important;
+    background-color: rgba(220, 53, 69, 0.08);
+  }
+  
   .navbar-nav {
-    padding: 1rem 0;
+    padding: 0;
+    width: 100%;
   }
   
   .search-container {
@@ -355,7 +482,10 @@
   }
   
   .search-container-mobile .search-results-container {
-    top: 53px; /* Slightly smaller navbar on mobile */
+    top: 57px; /* Slightly smaller navbar on mobile */
+  }
+  .search-results-container {
+    border: none;
   }
   
   /* Make the mobile search bar stick to top when results are shown */
@@ -367,8 +497,6 @@
   /* Highlight the search input when results are shown */
   .search-container-mobile.has-results .search-input-container {
     background-color: rgba(41, 41, 41, 0.9);
-    border-color: rgba(220, 53, 69, 0.4);
-    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
   }
   
   .search-container-mobile .search-result-item {
@@ -377,5 +505,146 @@
   
   .search-container-mobile .search-view-all {
     padding: 12px 15px;
+  }
+}
+
+/* ======= Mobile Menu Modal ======= */
+/* Mobile Menu Modal */
+.mobile-menu-modal {
+  position: absolute;
+  top: 70px; /* Đặt menu ngay dưới header - đã điều chỉnh xuống 70px */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 70px); /* Chiều cao trừ đi chiều cao của header */
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start; /* Căn lề trên thay vì căn giữa */
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  cursor: pointer; /* Hiển thị con trỏ pointer khi hover vào overlay */
+}
+
+.mobile-menu-modal.show {
+  opacity: 1;
+  visibility: visible;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.mobile-menu-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto; /* Canh giữa container */
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  border-radius: 0 0 12px 12px; /* Bo góc phía dưới */
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(-20px); /* Menu trượt xuống từ trên xuống */
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none; /* Không có viền phía trên */
+  cursor: default; /* Reset con trỏ về mặc định cho container */
+}
+
+.mobile-menu-modal.show .mobile-menu-container {
+  opacity: 1;
+  transform: translateY(0); /* Reset transform khi hiển thị */
+}
+
+.mobile-menu-header {
+  display: none; /* Ẩn phần header của menu */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 20, 20, 0.9);
+}
+
+.mobile-menu-brand {
+  display: none; /* Ẩn brand/logo */
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.mobile-menu-brand a {
+  text-decoration: none;
+}
+
+.mobile-menu-close {
+  display: none; /* Ẩn nút đóng */
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 22px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.mobile-menu-content {
+  padding: 15px 10px;
+  overflow-y: auto;
+  max-height: 400px; /* Giới hạn chiều cao để không quá dài */
+}
+
+/* Hiệu ứng đẹp cho các mục menu */
+.menu-nav .menu-item {
+  transform: translateY(0);
+  opacity: 0;
+  animation: slideIn 0.3s forwards;
+  animation-delay: calc(0.05s * var(--index, 0));
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Menu active style */
+.menu-item.active {
+  color: #dc3545 !important;
+  background-color: rgba(220, 53, 69, 0.15);
+  position: relative;
+}
+
+.menu-item.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #dc3545;
+}
+
+body.mobile-menu-open {
+  overflow: hidden;
+}
+
+/* Media queries cho responsive */
+@media (max-width: 576px) {
+  .mobile-menu-container {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 0;
   }
 }

@@ -1,0 +1,174 @@
+/* Mobile Menu Modal */
+.custom-navbar-toggle {
+  z-index: 1600;
+  position: relative;
+}
+
+/* Mobile Menu Modal */
+.mobile-menu-modal {
+  position: absolute;
+  top: 57px; /* Đặt menu ngay dưới header - đã điều chỉnh xuống 57px */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 57px); /* Chiều cao trừ đi chiều cao của header */
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-start; /* Căn lề trên thay vì căn giữa */
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.mobile-menu-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto; /* Canh giữa container */
+  background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+  border-radius: 0 0 12px 12px; /* Bo góc phía dưới */
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateY(-20px); /* Menu trượt xuống từ trên xuống */
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none; /* Không có viền phía trên */
+}
+
+.mobile-menu-modal.show .mobile-menu-container {
+  opacity: 1;
+  transform: translateY(0); /* Reset transform khi hiển thị */
+}
+
+.mobile-menu-header {
+  display: none; /* Ẩn phần header của menu */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(20, 20, 20, 0.9);
+}
+
+.mobile-menu-brand {
+  display: none; /* Ẩn brand/logo */
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.mobile-menu-brand a {
+  text-decoration: none;
+}
+
+.mobile-menu-close {
+  display: none; /* Ẩn nút đóng */
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 22px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-close:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.mobile-menu-content {
+  padding: 15px 10px;
+  overflow-y: auto;
+  max-height: 400px; /* Giới hạn chiều cao để không quá dài */
+}
+
+.menu-nav {
+  margin: 0;
+}
+
+.menu-item {
+  margin: 6px 0;
+  padding: 14px 15px;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.menu-item:hover {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #fff !important;
+  transform: translateY(-2px);
+}
+
+.menu-item.active {
+  color: #dc3545 !important;
+  background-color: rgba(220, 53, 69, 0.08);
+}
+
+body.mobile-menu-open {
+  overflow: hidden;
+}
+
+/* Media queries cho responsive */
+@media (max-width: 576px) {
+  .mobile-menu-container {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+/* Thêm màu nền khi menu hiển thị */
+.mobile-menu-modal.show {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Hiệu ứng đẹp cho các mục menu */
+.menu-nav .menu-item {
+  transform: translateY(0);
+  opacity: 0;
+  animation: slideIn 0.3s forwards;
+  animation-delay: calc(0.05s * var(--index, 0));
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Menu active style */
+.menu-item.active {
+  color: #dc3545 !important;
+  background-color: rgba(220, 53, 69, 0.15);
+  position: relative;
+}
+
+.menu-item.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #dc3545;
+}
