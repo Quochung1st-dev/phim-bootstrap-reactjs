@@ -211,19 +211,63 @@
 
 /* Mobile Search */
 .search-container-mobile {
+  width: 100%;
+}
+
+.mobile-search-wrapper {
+  max-width: 300px;
+}
+
+.mobile-search-form {
+  width: 100%;
+}
+
+.mobile-search-overlay {
+  position: fixed;
+  top: 56px; /* Same as results container, below the header */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1490;
+}
+
+.mobile-search-header, .mobile-search-close {
   display: none;
 }
 
-.search-toggle {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: rgba(220, 53, 69, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-right: 5px;
+@media (max-width: 991.98px) {
+  .mobile-search-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 8px 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  .mobile-search-close {
+    display: flex;
+  }
+  
+  .mobile-search-close button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    padding: 4px 8px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  .mobile-search-close button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+}
+
+.mobile-search-form {
+  width: 100%;
 }
 
 /* Responsive navbar tweaks */
@@ -235,6 +279,7 @@
   .search-container {
     width: 100%;
     margin: 15px 0;
+    display: none; /* Hide desktop search on mobile */
   }
   
   .search-container-mobile {
@@ -251,9 +296,41 @@
     z-index: 1500;
   }
   
+  /* Mobile search results full width */
+  .search-container-mobile .search-results-container {
+    position: fixed;
+    top: 56px; /* Adjust based on your navbar height */
+    left: 0;
+    right: 0;
+    width: 100vw;
+    max-width: 100vw;
+    max-height: calc(100vh - 56px);
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    z-index: 1500;
+  }
+  
   .search-result-info h6,
   .search-result-info small {
     max-width: 100%;
+  }
+  
+  .mobile-search-wrapper .search-input {
+    font-size: 14px !important;
+    padding: 6px 30px 6px 30px !important;
+    height: 36px !important;
+  }
+  
+  .mobile-search-wrapper .search-icon {
+    font-size: 12px;
+    left: 12px;
+  }
+  
+  .mobile-search-wrapper .search-clear-btn {
+    right: 10px;
   }
 }
 
@@ -261,5 +338,44 @@
 @media (max-width: 576px) {
   .search-container {
     max-width: calc(100vw - 30px);
+  }
+  
+  .mobile-search-wrapper {
+    max-width: 180px;
+  }
+  
+  .mobile-search-wrapper .search-input {
+    font-size: 13px !important;
+    padding: 5px 25px 5px 25px !important;
+    height: 32px !important;
+  }
+  
+  .mobile-search-wrapper .search-input::placeholder {
+    font-size: 12px !important;
+  }
+  
+  .search-container-mobile .search-results-container {
+    top: 53px; /* Slightly smaller navbar on mobile */
+  }
+  
+  /* Make the mobile search bar stick to top when results are shown */
+  .search-container-mobile.has-results .mobile-search-form {
+    position: relative;
+    z-index: 1510; /* Higher than overlay and results */
+  }
+  
+  /* Highlight the search input when results are shown */
+  .search-container-mobile.has-results .search-input-container {
+    background-color: rgba(41, 41, 41, 0.9);
+    border-color: rgba(220, 53, 69, 0.4);
+    box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+  }
+  
+  .search-container-mobile .search-result-item {
+    padding: 12px 15px;
+  }
+  
+  .search-container-mobile .search-view-all {
+    padding: 12px 15px;
   }
 }

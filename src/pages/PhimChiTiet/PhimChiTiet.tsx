@@ -514,7 +514,7 @@ const PhimChiTiet: React.FC = () => {
           <Row>
             {/* các phim liên quan 4 cột đều */}
             {relatedMovies.map((relatedMovie) => (
-              <Col key={relatedMovie.id} lg={3} md={4} sm={6} className="mb-4">
+              <Col key={relatedMovie.id} lg={3} md={4} sm={6} xs={6} className="mb-4">
                 <MovieCard movie={relatedMovie} />
               </Col>
             ))}
