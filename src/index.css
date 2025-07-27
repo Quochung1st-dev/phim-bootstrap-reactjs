@@ -16,7 +16,7 @@ code {
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 1px;
   background-color: #202020;
 }
 

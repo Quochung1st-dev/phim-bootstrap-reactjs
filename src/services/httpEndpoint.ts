@@ -24,6 +24,7 @@ export const API_ENDPOINTS = {
     // },
     THELOAI: {
         LIST: '/the-loai',
+        RANDOM: '/the-loai-random',
         DETAIL: (slug: string) => `/the-loai/${slug}`,
     },
     PHIMNOIBAT: {

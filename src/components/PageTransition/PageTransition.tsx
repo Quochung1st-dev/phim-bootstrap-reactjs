@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
@@ -74,6 +74,16 @@ const PageTransition: React.FC<PageTransitionProps> = ({
   };
 
   const variants = getVariants();
+
+  // Scroll to top when component mounts or when key changes
+  useEffect(() => {
+    if (isVisible) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+  }, [key, isVisible]);
 
   return (
     <AnimatePresence mode="wait">

@@ -1,9 +1,9 @@
-.section-header {
+.trang-chu-section-header {
     margin-bottom: 25px;
     position: relative;
 }
 
-.section-header::before {
+.trang-chu-section-header::before {
     content: '';
     position: absolute;
     left: 0;
@@ -14,7 +14,7 @@
     border-radius: 2px;
 }
 
-.section-title {
+.trang-chu-section-title {
     font-size: 1.8rem;
     font-weight: 700;
     color: #ffffff;
@@ -28,7 +28,7 @@
     text-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.section-title::after {
+.trang-chu-section-title::after {
     content: '';
     position: absolute;
     bottom: -8px;
@@ -36,16 +36,16 @@
     width: 60px;
     height: 2px;
     background-color: #dc3545;
-    animation: pulse 2s infinite;
+    animation: trang-chu-pulse 2s infinite;
 }
 
-@keyframes pulse {
+@keyframes trang-chu-pulse {
     0% { opacity: 0.6; }
     50% { opacity: 1; }
     100% { opacity: 0.6; }
 }
 
-@keyframes fadeInUp {
+@keyframes trang-chu-fadeInUp {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -62,4 +62,54 @@
     overflow: hidden;
     box-sizing: border-box;
     max-width: 100%;
+}
+
+/* Section 2 - Thể loại phim */
+.trang-chu-section-2 {
+    padding: 20px 0;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    max-width: 100%;
+    margin-bottom: 30px;
+}
+
+.trang-chu-section-2 .trang-chu-category-header {
+    margin-bottom: 2rem;
+}
+
+.trang-chu-section-2 .trang-chu-random-categories-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.trang-chu-section-2 .trang-chu-random-categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 auto;
+}
+
+.trang-chu-section-2 .trang-chu-category-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.8) 0%, rgba(255, 99, 71, 0.8) 100%);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.trang-chu-section-2 .trang-chu-category-badge:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, rgba(220, 53, 69, 1) 0%, rgba(255, 99, 71, 1) 100%);
+    color: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
