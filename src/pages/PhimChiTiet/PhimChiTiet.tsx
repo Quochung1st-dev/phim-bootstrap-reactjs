@@ -220,6 +220,25 @@ const PhimChiTiet: React.FC = () => {
     }
   }
 
+  const handleActionNoiBat = async (slug: string) => {
+    if (!slug) return;
+    try {
+      const response = await phimService.noibatPhimAction(slug);
+      if (response.success) {
+        if(response.message == '1') {
+          toast.success('Đã đánh dấu phim nổi bật thành công!');
+        }else{
+          toast.error('Đã hủy đánh dấu phim nổi bật thành công!');
+        }
+      } else {
+        toast.error(response.message || 'Không thể đánh dấu phim nổi bật');
+      }
+    } catch (err) {
+      console.error('Error marking movie as featured:', err);
+      toast.error('Đã có lỗi xảy ra khi đánh dấu phim nổi bật');
+    }
+  }
+
   const handleLuuTruPhim = async (phim: Phim) => {
     try {
       await phimService.savePhimLuuTruLocalStorage(phim);
@@ -413,11 +432,22 @@ const PhimChiTiet: React.FC = () => {
                 </div>
 
                 {/* Row 3: Share - full width button */}
-                <div className="action-row-3">
-                  <Button variant="outline-info" className="w-100 action-btn" size="sm">
-                    <i className="bi bi-share me-2"></i>
-                    Chia Sẻ
-                  </Button>
+                <div className="action-row-2 mb-3">
+                  <Row className="g-2">
+                    <Col xs={6}>
+                      <Button variant="outline-light" className="w-100 action-btn" size="sm" onClick={() => handleActionNoiBat(movie.slug)}>
+                        <i className="bi bi-star me-1"></i>
+                        Nổi bật
+                      </Button>
+                    </Col>
+                    <Col xs={6}>
+                      <Button variant="outline-info" className="w-100 action-btn" size="sm">
+                        <i className="bi bi-share me-2"></i>
+                        Chia Sẻ
+                      </Button>
+                    </Col>
+                  </Row>
+                  
                 </div>
               </div>
             </div>

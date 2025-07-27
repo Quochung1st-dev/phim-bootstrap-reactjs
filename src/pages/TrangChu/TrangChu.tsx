@@ -24,7 +24,7 @@ export const TrangChu: React.FC = () => {
         const fetchMovies = async () => {
             setLoading(true);
             try {
-                const response = await phimService.getPhimMoiCapNhat({
+                const response = await phimService.getPhimNoiBat({
                     page: currentPage,
                     per_page: perPage
                 });

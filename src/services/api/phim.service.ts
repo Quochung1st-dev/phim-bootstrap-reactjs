@@ -10,6 +10,10 @@ class PhimService {
     // Constructor có thể được sử dụng để thiết lập cấu hình nếu cần
   }
 
+  async getPhimNoiBat(params: {page?: number, per_page?: number}): Promise<ApiResponse<PhimListResponse>> {
+    return apiClient.get<PhimListResponse>(API_ENDPOINTS.PHIMNOIBAT.LIST, params);
+  }
+
   async getPhimMoiCapNhat(params: PhimMoiCapNhatQueryParams): Promise<ApiResponse<PhimListResponse>> {
     return apiClient.get<PhimListResponse>(API_ENDPOINTS.PHIMMOICAPNHAT.LIST, params);
   }
@@ -28,6 +32,10 @@ class PhimService {
 
   async likePhimAction(slug: string): Promise<ApiResponse<Phim>> {
     return apiClient.get<Phim>(API_ENDPOINTS.PHIM.ACTIONLIKE(slug));
+  }
+
+  async noibatPhimAction(slug: string): Promise<ApiResponse<Phim>> {
+    return apiClient.get<Phim>(API_ENDPOINTS.PHIM.ACTIONNOIBAT(slug));
   }
 
   async getPhimListDanhSach(params: {array_id: number[], per_page: number, page: number}): Promise<ApiResponse<PhimListResponse>> {

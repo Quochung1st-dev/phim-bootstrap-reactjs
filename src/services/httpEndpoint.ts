@@ -26,6 +26,9 @@ export const API_ENDPOINTS = {
         LIST: '/the-loai',
         DETAIL: (slug: string) => `/the-loai/${slug}`,
     },
+    PHIMNOIBAT: {
+        LIST: '/phim-noi-bat',
+    },
     PHIMMOICAPNHAT: {
         LIST: '/phim-moi-cap-nhat',
     },
@@ -39,6 +42,7 @@ export const API_ENDPOINTS = {
         DETAIL: (slug: string) => `/${slug}`,
         PHIMLIENQUAN: (slug: string) => `/phim-lien-quan/${slug}`,
         ACTIONLIKE: (slug: string) => `/phim-action-like/${slug}`,
+        ACTIONNOIBAT: (slug: string) => `/phim-action-noi-bat/${slug}`,
     },
     PHIMTIMKIEM: {
         LIST: '/tim-kiem',
