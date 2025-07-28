@@ -107,6 +107,32 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Tablet styles */
+@media (max-width: 992px) {
+    .trang-chu-section-2 .trang-chu-category-badge {
+        padding: 7px 14px;
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 576px) {
+    .trang-chu-section-2 .trang-chu-category-badge {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        margin-bottom: 6px;
+        width: calc(50% - 10px);
+        text-align: center;
+        box-sizing: border-box;
+    }
+    
+    .trang-chu-section-2 .trang-chu-random-categories {
+        gap: 8px;
+        justify-content: space-between;
+    }
+}
+
 .trang-chu-section-2 .trang-chu-category-badge:hover {
     transform: translateY(-3px);
     background: linear-gradient(135deg, rgba(220, 53, 69, 1) 0%, rgba(255, 99, 71, 1) 100%);
