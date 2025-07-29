@@ -56,7 +56,7 @@ class PhimService {
 
   // Lưu id phim đã xem vào mảng trong localStorage
   async savePhimDaXemLocalStorage(phim: Phim): Promise<void> {
-      const MAX_ITEMS = 20;
+      const MAX_ITEMS = 5000;
       let phimDaXem = JSON.parse(localStorage.getItem('phimDaXem') || '[]') as number[];
 
       // Xoá nếu đã tồn tại để đưa lên đầu
@@ -109,7 +109,60 @@ class PhimService {
       return phimLuuTru.includes(phimId);
   }
 
-  
+  // Xóa tất cả phim khỏi danh sách lưu trữ
+  async clearPhimLuuTruLocalStorage(): Promise<void> {
+      localStorage.setItem('phimLuuTru', '[]');
+  }
+
+  // Lấy danh sách ID phim đã xem
+  getPhimDaXemIds(): number[] {
+      return JSON.parse(localStorage.getItem('phimDaXem') || '[]') as number[];
+  }
+
+  // Kiểm tra phim có trong danh sách đã xem không
+  isPhimDaXem(phimId: number): boolean {
+      const phimDaXem = this.getPhimDaXemIds();
+      return phimDaXem.includes(phimId);
+  }
+
+  // Lấy danh sách phim đã xem dựa trên ID
+  async getPhimDaXemLocalStorage(): Promise<Phim[]> {
+      const phimIds = this.getPhimDaXemIds();
+      if (phimIds.length === 0) return [];
+      
+      try {
+          // Nếu có nhiều ID, gửi request để lấy thông tin phim
+          const response = await this.getPhimListDanhSach({
+              array_id: phimIds,
+              per_page: phimIds.length,
+              page: 1
+          });
+          
+          if (response.data && response.data.items) {
+              // Sắp xếp lại theo thứ tự của IDs trong localStorage
+              const sortedMovies = [...response.data.items].sort((a, b) => {
+                  return phimIds.indexOf(a.id) - phimIds.indexOf(b.id);
+              });
+              return sortedMovies;
+          }
+          return [];
+      } catch (error) {
+          console.error('Error fetching watched movies:', error);
+          return [];
+      }
+  }
+
+  // Xóa phim khỏi danh sách đã xem
+  async removePhimDaXemLocalStorage(phimId: number): Promise<void> {
+      let phimDaXem = JSON.parse(localStorage.getItem('phimDaXem') || '[]') as number[];
+      phimDaXem = phimDaXem.filter(id => id !== phimId);
+      localStorage.setItem('phimDaXem', JSON.stringify(phimDaXem));
+  }
+
+  // Xóa tất cả phim khỏi danh sách đã xem
+  async clearPhimDaXemLocalStorage(): Promise<void> {
+      localStorage.setItem('phimDaXem', '[]');
+  }
 }
 
 export const phimService = new PhimService();

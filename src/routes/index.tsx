@@ -10,6 +10,7 @@ import PhimMoi from '../pages/PhimMoi/PhimMoi';
 import PhimXemNhieu from '../pages/PhimXemNhieu/PhimXemNhieu';
 import PhimHayNhat from '../pages/PhimHayNhat/PhimHayNhat';
 import PhimLuuTru from '../pages/PhimLuuTru/PhimLuuTru';
+import PhimDaXem from '../pages/PhimDaXem/PhimDaXem';
 
 
 const routes: RouteObject[] = [
@@ -48,6 +49,10 @@ const routes: RouteObject[] = [
       {
         path: routePath.PHIM_LUU_TRU,
         element: <PhimLuuTru />
+      },
+      {
+        path: routePath.PHIM_DA_XEM,
+        element: <PhimDaXem />
       },
       {
         path: routePath.MOVIE_DETAIL(':slug'),

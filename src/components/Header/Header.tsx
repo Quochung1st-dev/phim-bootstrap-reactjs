@@ -341,6 +341,21 @@ const Header: React.FC = () => {
                     <i className="bi bi-archive me-3"></i>Phim Lưu Trữ
                   </Nav.Link>
                   <Nav.Link 
+                    as={Link}
+                    to={routePath.PHIM_DA_XEM}
+                    className="menu-item"
+                    style={{"--index": 5} as React.CSSProperties}
+                    onClick={() => {
+                      document.body.classList.remove('mobile-menu-open');
+                      const menuModal = document.getElementById('mobile-menu-modal');
+                      if (menuModal) {
+                        menuModal.classList.remove('show');
+                      }
+                    }}
+                  >
+                    <i className="bi bi-eye me-3"></i>Phim Đã Xem
+                  </Nav.Link>
+                  <Nav.Link 
                     as={Link} 
                     to={routePath.THE_LOAI.LIST} 
                     className="menu-item" 
@@ -459,6 +474,7 @@ const Header: React.FC = () => {
               <Nav.Link as={Link} to={routePath.PHIM_XEM_NHIEU} className="menu-item">Phim Xem Nhiều</Nav.Link>
               <Nav.Link as={Link} to={routePath.PHIM_HAY_NHAT} className="menu-item">Phim Hay Nhất</Nav.Link>
               <Nav.Link as={Link} to={routePath.PHIM_LUU_TRU} className="menu-item">Phim Lưu Trữ</Nav.Link>
+              <Nav.Link as={Link} to={routePath.PHIM_DA_XEM} className="menu-item">Phim Đã Xem</Nav.Link>
               <Nav.Link as={Link} to={routePath.THE_LOAI.LIST} className="menu-item">Thể loại</Nav.Link>
               
             </Nav>

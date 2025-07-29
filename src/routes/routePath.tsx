@@ -29,6 +29,9 @@ export const routePath = {
 
   // Trang phim lưu trữ
   PHIM_LUU_TRU: '/phim-luu-tru',
+  
+  // Trang phim đã xem
+  PHIM_DA_XEM: '/phim-da-xem',
 
   // Trang chi tiết phim
   MOVIE_DETAIL: (slug: string) => `/${slug}`,

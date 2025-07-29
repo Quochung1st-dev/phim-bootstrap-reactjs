@@ -27,6 +27,7 @@
 
 .movie-poster {
     width: 100%;
+    height: 250px;
     object-fit: cover;
     transition: all 0.5s ease;
     position: relative;
@@ -152,6 +153,12 @@
     color: inherit;
     outline: none;
 }
+@media screen and (max-width:992px) {
+    .movie-poster {
+        height: 220px;
+    }
+}
+
 @media screen and (max-width:678px) {
     .movie-card-title {
         font-size: 12px;
@@ -159,9 +166,10 @@
     .movie-card-tags {
         display: none;
     }
+    .movie-poster {
+        height: 180px;
+    }
 }
-
-
 
 @media screen and (max-width:576px) {
     .movie-card-title {
@@ -169,5 +177,8 @@
     }
     .movie-card-tags {
         display: none;
+    }
+    .movie-poster {
+        height: 150px;
     }
 }
