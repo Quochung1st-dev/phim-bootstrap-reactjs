@@ -18,8 +18,8 @@ const PhimHayNhat: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page')) || 1);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const itemsPerPage = 20; // Hiển thị 20 phim mỗi trang
-  
+  const itemsPerPage = import.meta.env.VITE_ITEM_PER_PAGE; // Hiển thị 32 phim mỗi trang
+
   // Fetch phim hay nhất
   useEffect(() => {
     const fetchPhimHayNhat = async () => {

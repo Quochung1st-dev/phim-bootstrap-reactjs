@@ -20,7 +20,7 @@ const TimKiem: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(Number(searchParams.get('page')) || 1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalResults, setTotalResults] = useState<number>(0);
-  const itemsPerPage = 20; // Fixed at 20 items per page (4 columns x 5 rows)
+  const itemsPerPage = import.meta.env.VITE_ITEM_PER_PAGE; // Fixed at 32 items per page (4 columns x 8 rows)
 
   // Search handler
   const handleSearch = async (page: number = 1, query: string = searchQuery) => {

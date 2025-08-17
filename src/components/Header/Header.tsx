@@ -435,29 +435,10 @@ const Header: React.FC = () => {
                                 </div>
                               </Link>
                             ))}
-                            <div className="search-view-all">
-                              <Link 
-                                to={`/tim-kiem?query=${encodeURIComponent(searchQuery)}`} 
-                                onClick={() => setShowResults(false)}
-                              >
-                                Xem tất cả kết quả
-                              </Link>
-                            </div>
                           </>
                         ) : (
                           <div className="p-3 text-center">
-                            <p className="text-light mb-0">
-                              <i className="bi bi-exclamation-circle me-2"></i>
-                              Không tìm thấy phim "{searchQuery}"
-                            </p>
-                            <div className="search-view-all mt-2">
-                              <Link 
-                                to={`/tim-kiem?query=${encodeURIComponent(searchQuery)}`} 
-                                onClick={() => setShowResults(false)}
-                              >
-                                <i className="bi bi-search me-1"></i> Tìm kiếm nâng cao
-                              </Link>
-                            </div>
+                            
                           </div>
                         )}
                       </div>

@@ -17,7 +17,7 @@ const PhimLuuTru: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalResults, setTotalResults] = useState<number>(0);
-  const itemsPerPage = 20; // Number of movies to load per page
+  const itemsPerPage = import.meta.env.VITE_ITEM_PER_PAGE; // Number of movies to load per page
   const [hasMore, setHasMore] = useState<boolean>(true); // To control "Load More" button visibility
   
   // Fetch phim lưu trữ
